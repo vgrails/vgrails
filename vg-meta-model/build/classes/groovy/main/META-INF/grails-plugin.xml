@@ -1,0 +1,19 @@
+<plugin name='vgMetaModel' version='0.1' grailsVersion='3.3.8 &gt; *'>
+  <type>vg.meta.model.VgMetaModelGrailsPlugin</type>
+  <grailsVersion>3.3.8 &gt; *</grailsVersion>
+  <authorEmail></authorEmail>
+  <pluginExcludes>[grails-app/views/error.gsp]</pluginExcludes>
+  <author>Your name</author>
+  <documentation>http://grails.org/plugin/vg-meta-model</documentation>
+  <profiles>[web]</profiles>
+  <name>vg-meta-model</name>
+  <description>Brief summary/description of the plugin.
+</description>
+  <title>Vg Meta Model</title>
+  <version />
+  <resources>
+    <resource>vg.meta.model.UrlMappings</resource>
+    <resource>vg.meta.model.Application</resource>
+    <resource>vg.meta.model.BootStrap</resource>
+  </resources>
+</plugin>
