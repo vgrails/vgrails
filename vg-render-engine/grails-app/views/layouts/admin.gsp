@@ -166,9 +166,18 @@
 </div>
 
 <script src="../layuiadmin/layui/layui.js"></script>
+%{--<script>--}%
+    %{--layui.config({--}%
+        %{--base: '../layuiadmin/' //静态资源所在路径--}%
+    %{--}).extend({--}%
+        %{--index: 'lib/index' //主入口模块--}%
+    %{--}).use('index');--}%
+%{--</script>--}%
 
-<asset:javascript src="javascripts/layui.all.js"/>
-<asset:javascript src="javascripts/config.js"/>
+    %{--<g:layoutBody/>--}%
+
+    <asset:javascript src="javascripts/layui.all.js"/>
+    <asset:javascript src="javascripts/config.js"/>
 
 </body>
 </html>
