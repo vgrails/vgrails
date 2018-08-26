@@ -77,3 +77,4 @@ grailsPublish {
 assets {
     packagePlugin = true
 }
+grails { plugins { compile project(':vg-meta-model')}}
