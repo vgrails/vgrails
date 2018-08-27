@@ -21,7 +21,7 @@ class MetaDomain {
     /** 表单 */
     List<List<String>> form = []
     /** 搜索 */
-    Map<String, List<String>> search =[:]
+    List<String> search =[]
     /** 排序 */
     List<String> sort = []
     /** 非持久 */
@@ -30,7 +30,7 @@ class MetaDomain {
     List<String> associations = []
 
 
-    private Map<String, MetaField> fieldsMap = null
+    private Map<String, MetaField> fieldsMap = [:]
 
 
     /**
@@ -43,19 +43,18 @@ class MetaDomain {
 
     /**
      * 获取字段
-     * @param field 字段名称
+     * @param fieldName 字段名称
      * @return
      */
-    synchronized MetaField getMetaField(String field){
-        if(field == null || field.size() == 0) return null
+    synchronized MetaField getMetaField(String fieldName){
+        if(fieldName == null || fieldName.size() == 0) return null
 
-        if(fieldsMap == null){
-            fieldsMap = [:]
+        if(fieldsMap == null || (fieldsMap.size() != fields.size())){
             for(MetaField f in fields){
                 fieldsMap[f.propertyName]=f
             }
         }
 
-        return fieldsMap[field]
+        return fieldsMap[fieldName]
     }
 }

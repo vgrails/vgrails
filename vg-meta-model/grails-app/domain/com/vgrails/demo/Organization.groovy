@@ -5,10 +5,7 @@ class Organization {
     static m=[
             locale: "组织",
 
-            search: [
-                    name: ["eq", "like"],
-                    area: ["eq", "like"]
-            ],
+            search: ["name", "area"],
 
             form: [
                     ["name"],
@@ -18,7 +15,6 @@ class Organization {
             sort: ["name"]
     ]
 
-
     String name
     String province
     String city
@@ -26,9 +22,9 @@ class Organization {
 
     static constraints = {
         name        attributes: [locale: "名称"], maxSize: 10, minSize: 4, unique: true
-        province    attributes: [locale: "省份"], maxSize: 4, minSize: 2
+        province    attributes: [locale: "省份"], maxSize: 4, minSize: 2, blank: false
         city        attributes: [locale: "城市"], maxSize: 10, minSize: 2
-        area        attributes: [locale: "区域"], maxSize: 10, minSize: 2
+        area        attributes: [locale: "区域"], maxSize: 10, minSize: 2, nullable: true
     }
 
     String toString(){

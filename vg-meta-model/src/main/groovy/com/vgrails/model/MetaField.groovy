@@ -1,6 +1,8 @@
 package com.vgrails.model
 
 import grails.compiler.GrailsCompileStatic
+import grails.gorm.validation.Constraint
+import grails.gorm.validation.DefaultConstrainedProperty
 import groovy.transform.TypeCheckingMode
 
 /**
@@ -38,7 +40,7 @@ class MetaField {
                     min:[default: null, type: Integer, nullable: true],
             ],
             Long:[
-                    unique:[default: false, type: boolean, nullable: true],
+                    unique:[default: false, type: Boolean, nullable: true],
                     max:[default: null, type: Long, nullable: true],
                     min:[default: null, type: Long, nullable: true],
             ],
@@ -53,15 +55,15 @@ class MetaField {
                     roundTo:[default: 4, type: Integer, nullable: true],
             ],
             Date:[
-                    unique:[default: false, type: boolean, nullable: true],
+                    unique:[default: false, type: Boolean, nullable: true],
                     nullable:[default: false, type: Boolean, nullable: true],
                     format:[default: "yyyy-MM-dd", type: String, nullable: true],
                     max:[type: Date, nullable: true],
                     min:[type: Date, nullable: true],
             ],
             String:[
-                    unique:[default: false, type: boolean, nullable: true],
-                    blank:[default: false, type: boolean, nullable: true],
+                    unique:[default: false, type: Boolean, nullable: true],
+                    blank:[default: false, type: Boolean, nullable: true],
                     nullable:[default: false, type: Boolean, nullable: true],
                     inList:[type: List, nullable: true],
                     matches:[type: String, nullable: true],
@@ -72,4 +74,49 @@ class MetaField {
                     association:[type: String, nullable: false],
             ]
     ]
+
+    /**
+     * 基于约束设定属性
+     * @param c
+     */
+    MetaField SetByConstraint(DefaultConstrainedProperty c){
+        type = c.propertyType.simpleName
+        locale = c.attributes?.locale ?:c.propertyName
+        propertyName = c.propertyName
+        flex = c.attributes?.flex ?:1
+
+        String mappingType
+        if(typeMapping[type]!=null){
+            mappingType = typeMapping[type]
+        }else{
+            mappingType = type
+        }
+
+        if(typeConstraints[mappingType]==null){
+            mappingType = "Association"
+        }
+
+        typeConstraints[mappingType].each{String cName, Map<String, Object> map ->
+
+            if(c.properties.containsKey(cName) && c.properties[cName]!=null){
+                constraints[cName] = c.properties[cName]
+            }else if(c.attributes.containsKey(cName) && c.attributes[cName]!=null){
+                constraints[cName] = c.properties[cName]
+            }else if(c.appliedConstraints.size() > 0){
+                for(Constraint constraint in c.appliedConstraints){
+                    if(constraint.name == cName){
+                        constraints[cName] = constraint.parameter
+                    }
+                }
+            }else if(map["nullable"]==true && map["default"]!=null && c.properties.containsKey(cName)==false){
+                constraints[cName] = map["default"]
+            }else if(map["nullable"]==false && c.properties[cName]==null && c.attributes[cName]==null){
+                println "错误:约束值缺失, 属性:${c.propertyName} 约束:${cName}"
+            }
+
+            //println "${c.propertyName} ${cName} ${constraints[cName]}"
+        }
+
+        return this
+    }
 }

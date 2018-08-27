@@ -17,7 +17,5 @@ enum Search {
     /** 多字段AJAX搜索 */
     ajax,
     /** 多字段与搜索 */
-    combo,
-    /** 表达式搜索 */
-    expression
+    combo
 }

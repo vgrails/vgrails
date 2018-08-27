@@ -14,15 +14,11 @@ class VgRenderEngineGrailsPlugin extends Plugin {
     // TODO Fill in these fields
     def title = "Vg Render Engine" // Headline display name of the plugin
     def author = "bale_lin"
-    def authorEmail = ""
+    def authorEmail = "bale_lin@163.com"
     def description = '''\
 Brief summary/description of the plugin.
 '''
     def profiles = ['web']
-
-//    def dependsOn = [
-//            "vg-meta-model": "* >= 0.1"
-//    ]
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/vg-render-engine"
