@@ -4,12 +4,12 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 
 environments {
 
-    // run via “./gradlew -Dgeb.env=chrome -Dwebdriver.chrome.driver=/Applications/chromedriver iT”
+    // Run via “./gradlew -Dgeb.env=chrome -Dwebdriver.chrome.driver=/Applications/chromedriver iT”
     chrome {
         driver = { new ChromeDriver() }
     }
 
-    // run via “./gradlew -Dgeb.env=chromeHeadless -Dwebdriver.chrome.driver=/Applications/chromedriver iT”
+    // Run via “./gradlew -Dgeb.env=chromeHeadless -Dwebdriver.chrome.driver=/Applications/chromedriver iT”
     chromeHeadless {
         driver = {
             ChromeOptions o = new ChromeOptions()
@@ -18,7 +18,7 @@ environments {
         }
     }
 
-    // run via “./gradlew -Dgeb.env=htmlUnit iT”
+    // Run via “./gradlew -Dgeb.env=htmlUnit iT”
     htmlUnit {
         driver = { new HtmlUnitDriver() }
     }

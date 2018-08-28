@@ -37,7 +37,7 @@ class MetaService {
             m = clazz['m']
         }catch(Exception e){}
 
-        if(m == null || m["form"]==null){
+        if(m["form"]==null){
             needToGenerateDefaultForm = true
         }
 
@@ -57,13 +57,6 @@ class MetaService {
         }else{
             transients=[]
         }
-
-        fields.add(new MetaField(
-                propertyName: "id",
-                type: "long",
-                locale: "序号",
-                flex: 1
-        ))
 
         for(DefaultConstrainedProperty c in constraints){
             MetaField field = new MetaField().SetByConstraint(c)
