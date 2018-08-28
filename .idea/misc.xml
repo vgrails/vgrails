@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/AsyncController.groovy" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/AsyncSpec.groovy" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/Controller.groovy" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/create.gsp" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/edit.gsp" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/index.gsp" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/ScaffoldedController.groovy" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/Service.groovy" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/ServiceSpec.groovy" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/show.gsp" />
+    <file url="file://$PROJECT_DIR$/vg-app-demo/src/main/templates/scaffolding/Spec.groovy" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8.172" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

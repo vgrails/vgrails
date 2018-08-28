@@ -87,4 +87,8 @@ class MetaService {
 
         return metaDomain
     }
+
+    static synchronized ValidateProperty(String model, Map domain, String prop, String value){
+
+    }
 }

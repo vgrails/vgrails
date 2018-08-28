@@ -70,7 +70,7 @@ class MetaField {
                     maxSize:[type: Integer, nullable: true],
                     minSize:[type: Integer, nullable: true],
             ],
-            Association:[
+            ASSOCIATION:[
                     association:[type: String, nullable: false],
             ]
     ]
@@ -89,7 +89,7 @@ class MetaField {
         }
 
         if(typeConstraints[mappingType]==null){
-            mappingType = "Association"
+            mappingType = "ASSOCIATION"
         }
 
         return typeConstraints[mappingType]

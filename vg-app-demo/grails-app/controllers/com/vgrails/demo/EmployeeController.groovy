@@ -43,4 +43,10 @@ class EmployeeController {
 
         render (output as JSON)
     }
+
+    def form() {
+        println params
+
+        redirect(uri: "/index")
+    }
 }

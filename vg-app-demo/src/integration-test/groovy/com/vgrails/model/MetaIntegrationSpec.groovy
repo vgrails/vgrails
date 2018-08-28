@@ -25,7 +25,7 @@ class MetaIntegrationSpec extends Specification {
         metaDomain.form[1].size() == 3
         metaDomain.sort.size() == 1
 
-        metaDomain.fields.size() == 5
+        metaDomain.fields.size() == 4
     }
 
     void "获取模型无Meta"() {
@@ -37,7 +37,7 @@ class MetaIntegrationSpec extends Specification {
         metaDomain.form.size() == 4
         metaDomain.sort.size() == 0
 
-        metaDomain.fields.size() == 5
+        metaDomain.fields.size() == 4
     }
 
     void "获取模型异常值"(String model, Object value) {
