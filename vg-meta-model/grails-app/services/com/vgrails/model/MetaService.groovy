@@ -90,7 +90,6 @@ class MetaService {
         metaDomain.form = m["form"]
         metaDomain.sort = m["sort"] ?:[]
 
-
         metaDomainMap[model]=metaDomain
 
         return metaDomain

@@ -76,15 +76,11 @@ class MetaField {
     ]
 
     /**
-     * 基于约束设定属性
-     * @param c
+     * 获取类型约束映射表
+     * @param type
+     * @return
      */
-    MetaField SetByConstraint(DefaultConstrainedProperty c){
-        type = c.propertyType.simpleName
-        locale = c.attributes?.locale ?:c.propertyName
-        propertyName = c.propertyName
-        flex = c.attributes?.flex ?:1
-
+    Map<String, Map<String, Object>> GetConstraintsMap(String type){
         String mappingType
         if(typeMapping[type]!=null){
             mappingType = typeMapping[type]
@@ -96,8 +92,21 @@ class MetaField {
             mappingType = "Association"
         }
 
-        typeConstraints[mappingType].each{String cName, Map<String, Object> map ->
+        return typeConstraints[mappingType]
+    }
 
+    /**
+     * 基于约束设定属性
+     * @param c
+     */
+    MetaField SetByConstraint(DefaultConstrainedProperty c){
+        type = c.propertyType.simpleName
+        locale = c.attributes?.locale ?:c.propertyName
+        propertyName = c.propertyName
+        flex = c.attributes?.flex ?:1
+
+        GetConstraintsMap(type).each{String cName, Map<String, Object> map ->
+            //拷贝配置的非空约束值
             if(c.properties.containsKey(cName) && c.properties[cName]!=null){
                 constraints[cName] = c.properties[cName]
             }else if(c.attributes.containsKey(cName) && c.attributes[cName]!=null){
@@ -108,13 +117,13 @@ class MetaField {
                         constraints[cName] = constraint.parameter
                     }
                 }
+            //拷贝配置的可空默认值
             }else if(map["nullable"]==true && map["default"]!=null && c.properties.containsKey(cName)==false){
                 constraints[cName] = map["default"]
+            //提示未配置的非空约束值
             }else if(map["nullable"]==false && c.properties[cName]==null && c.attributes[cName]==null){
                 println "错误:约束值缺失, 属性:${c.propertyName} 约束:${cName}"
             }
-
-            //println "${c.propertyName} ${cName} ${constraints[cName]}"
         }
 
         return this
