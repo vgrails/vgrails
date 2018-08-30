@@ -95,43 +95,41 @@ class VgHelper {
             val = reply.params["value"]
         }
 
-        Map<String, Map<String, Object>> constraintsMap = metaField.GetConstraintsMap()
-        
-        if(constraintsMap["nullable"]==false && (val == null || val == "")){
+        if(metaField.constraints["nullable"]==false && (val == null || val == "")){
             return new VgReply(code: -1, message: "属性${metaField.locale}值不可为空")
         }
 
-        if(constraintsMap["min"]!=null && (val < constraintsMap["min"])){
-            return new VgReply(code: -1, message: "属性${metaField.locale}值:${val}不满足最小约束:${constraintsMap["min"]}")
+        if(metaField.constraints["min"]!=null && (val < metaField.constraints["min"])){
+            return new VgReply(code: -1, message: "属性${metaField.locale}值:${val}不满足最小约束:${metaField.constraints["min"]}")
         }
 
-        if(constraintsMap["max"]!=null && (val < constraintsMap["max"])){
-            return new VgReply(code: -1, message: "属性${metaField.locale}值:${val}不满足最大约束:${constraintsMap["max"]}")
+        if(metaField.constraints["max"]!=null && (val > metaField.constraints["max"])){
+            return new VgReply(code: -1, message: "属性${metaField.locale}值:${val}不满足最大约束:${metaField.constraints["max"]}")
         }
 
-        if(constraintsMap["blank"]!=true && (val.toString().trim().length() == 0)){
+        if(metaField.constraints["blank"]!=true && (val.toString().trim().length() == 0)){
             return new VgReply(code: -1, message: "属性${metaField.locale}值不满足BLANK约束")
         }
 
-        if(constraintsMap["inList"]!=null && (constraintsMap["inList"].containsKey(val.toString()) == false)){
+        if(metaField.constraints["inList"]!=null && (metaField.constraints["inList"].containsKey(val.toString()) == false)){
             return new VgReply(code: -1, message: "属性${metaField.locale}值不满足列表(inList)约束")
         }
 
-        if(constraintsMap["maxSize"]!=null && (val.toString().length() > constraintsMap["maxSize"])){
+        if(metaField.constraints["maxSize"]!=null && (val.toString().length() > metaField.constraints["maxSize"])){
             return new VgReply(code: -1, message: "属性${metaField.locale}值不满足最大长度约束")
         }
 
-        if(constraintsMap["minSize"]!=null && (val.toString().length() < constraintsMap["minSize"])){
+        if(metaField.constraints["minSize"]!=null && (val.toString().length() < metaField.constraints["minSize"])){
             return new VgReply(code: -1, message: "属性${metaField.locale}值不满足最小长度约束")
         }
 
-        if(constraintsMap["matches"]!=null && (val.toString() ==~ constraintsMap["matches"])==false){
+        if(metaField.constraints["matches"]!=null && (val.toString() ==~ metaField.constraints["matches"])==false){
             return new VgReply(code: -1, message: "属性${metaField.locale}值不满足格式约束")
         }
 
         Class domain = Class.forName("${metaDomain.pkg}.${metaDomain.className}")
 
-        if(constraintsMap["unique"]==true && domain."findBy${propertyName.capitalize()}"(val) != null){
+        if(metaField.constraints["unique"]==true && domain."findBy${propertyName.capitalize()}"(val) != null){
             return new VgReply(code: -1, message: "属性${metaField.locale}值不满足唯一约束")
         }
 
