@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-cn" class="no-js">
+<html lang="zh-cn" class="no-js" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>VGRAILS</title>
@@ -11,71 +11,35 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <div class="btn-group">
-                            <button class="btn btn-info">创建</button>
-                            <button class="btn btn-info">更新</button>
-                            <button class="btn btn-info">删除</button>
-                        </div>
-                    </div>
-                    <div class="collapse navbar-collapse navbar-collapse-example">
-                        <form class="navbar-form navbar-right" role="search">
-                            <div class="form-group">
-                                <select data-placeholder="选择条件" class="chosen-select form-control">
-                                    <option value="cat">英雄</option>
-                                    <option value="fish">动作</option>
-                                </select>
-                                <input type="text" class="form-control" placeholder="搜索">
-                            </div>
-                            <button type="submit" class="btn btn-default btn-info">搜索</button>
-                        </form>
-                    </div>
-                </div>
-            </nav>
-        </div>
-        <div class="row">
-                <div id="mygrida" class="datagrid">
-                    <div class="datagrid-container"></div>
-                    <div class="pager"></div>
-                </div>
-                </div>
-            </div>
-        </div>
+        <form action="<g:createLink controller='employee' action='form'/>" method="post">
+            <input name="user_name" type="text" class="form-control" placeholder="用户名">
+            <select name="fruit" class="form-control">
+                <option value="">请选择一种水果</option>
+                <option value="apple">苹果</option>
+                <option value="banana">香蕉</option>
+                <option value="orange">桔子</option>
+            </select>
+            <input name="password" type="password" class="form-control">
+            <input name="datetime_local" type="datetime-local" class="form-control">
+            <input name="date" type="date" class="form-control">
+            <input name="time" type="time" class="form-control">
+            <input name="number"  type="number" class="form-control">
+            <input name="email" type="email" class="form-control">
+            <input name="url" type="url" class="form-control">
+            <input name="search" type="search" class="form-control">
+            <input name="tel" type="tel" class="form-control">
+            <button id="button" class="btn-primary">提交</button>
+        </form>
     </div>
     <asset:javascript src="lib/jquery/jquery.js"/>
     <asset:javascript src="js/zui.js"/>
     <asset:javascript src="lib/datagrid/zui.datagrid.js"/>
 
     <script type="text/javascript">
-
-    recPerPage=Math.floor((document.documentElement.clientHeight - 36 - 52 -75)/36)
-
-    $('#mygrida').datagrid({
-        dataSource: {
-            cols:[
-                {name: 'name', label: '姓名'},
-                {name: 'age', label: '年龄'},
-                {name: 'familyName', label: '姓氏'},
-                {name: 'givenName', label: '名称'}
-            ],
-            remote: function (params){
-                return {
-                    url: '<g:createLink controller="employee" action="list" absolute="true"/>',
-                    type: 'GET',
-                    dataType: 'json'
-                };
-            }
-        },
-        showRowIndex: false,
-        states: {
-            pager: {page: 1, recPerPage: recPerPage}
-        },
-        height: 'page'
-    });
-
+        $('#button').on('click', function(e) {
+            e.preventDefault();
+            $('form').submit();
+        });
     </script>
 </body>
 </html>

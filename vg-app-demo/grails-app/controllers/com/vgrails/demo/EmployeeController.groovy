@@ -47,6 +47,10 @@ class EmployeeController {
     def form() {
         println params
 
-        redirect(uri: "/index")
+        params.each{
+            println "${it.key} ${it.value}(${it.value.class.simpleName})"
+        }
+
+        redirect(uri: "/")
     }
 }

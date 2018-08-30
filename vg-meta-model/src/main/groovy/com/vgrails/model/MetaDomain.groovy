@@ -46,7 +46,7 @@ class MetaDomain {
      * @param fieldName 字段名称
      * @return
      */
-    synchronized MetaField getMetaField(String fieldName){
+    synchronized MetaField GetMetaField(String fieldName){
         if(fieldName == null || fieldName.size() == 0) return null
 
         if(fieldsMap == null || (fieldsMap.size() != fields.size())){

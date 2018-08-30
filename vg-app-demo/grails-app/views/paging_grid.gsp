@@ -50,6 +50,9 @@
     <asset:javascript src="lib/datagrid/zui.datagrid.js"/>
 
     <script type="text/javascript">
+
+    recPerPage=Math.floor((document.documentElement.clientHeight - 36 - 52 -75)/36)
+
     $('#mygrida').datagrid({
         dataSource: {
             cols:[
@@ -66,8 +69,11 @@
                 };
             }
         },
-        //height: 'auto',
-        showRowIndex: false
+        showRowIndex: false,
+        states: {
+            pager: {page: 1, recPerPage: recPerPage}
+        },
+        height: 'page'
     });
 
     </script>
