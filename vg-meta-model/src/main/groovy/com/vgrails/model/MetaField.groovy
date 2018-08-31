@@ -47,10 +47,12 @@ class MetaField {
             Float:[
                     max:[default: null, type: Long, nullable: true],
                     min:[default: null, type: Long, nullable: true],
+                    unique:[default: false, type: Boolean, nullable: true],
             ],
             Double:[
                     max:[default: null, type: Double, nullable: true],
                     min:[default: null, type: Double, nullable: true],
+                    unique:[default: false, type: Boolean, nullable: true],
             ],
             Date:[
                     unique:[default: false, type: Boolean, nullable: true],

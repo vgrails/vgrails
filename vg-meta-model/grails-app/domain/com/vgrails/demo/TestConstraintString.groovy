@@ -12,8 +12,8 @@ class TestConstraintString {
     
     static constraints = {
         stringUnique unique: true
-        stringMaxSize  maxSize: 5
-        stringMinSize  minSize: 2
+        stringMaxSize  maxSize: 10
+        stringMinSize  minSize: 1
         stringNullable  nullable: true
         stringInList  inList: ["AA", "BB", "CC"]
         stringMatches  matches: "[0-9]+"

@@ -1,5 +1,7 @@
 package com.vgrails.demo
 
+import java.text.SimpleDateFormat
+
 class TestConstraintDate {
 
     Date dateUnique
@@ -11,8 +13,8 @@ class TestConstraintDate {
     
     static constraints = {
         dateUnique unique: true
-        dateMax  max: new Date().plus(10)
-        dateMin  min: new Date().plus(-10)
+        dateMax  max: new SimpleDateFormat("yyyy-MM-dd").parse("2018-01-01")+10
+        dateMin  min: new SimpleDateFormat("yyyy-MM-dd").parse("2018-01-01")-10
         dateNullable  nullable: true
         dateFormat  attributes:[ format: "yyyyMMdd"]
         dateFormatMax  max: new Date().plus(10), attributes:[ format: "yyyyMMdd"]

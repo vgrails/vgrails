@@ -1,6 +1,5 @@
 package com.vgrails.model
 
-import com.vgrails.demo.TestConstraintInteger
 import com.vgrails.utility.ParallelRunner
 import com.vgrails.utility.VgHelper
 import grails.testing.mixin.integration.Integration
@@ -67,7 +66,7 @@ class MetaIntegrationSpec extends Specification {
             assert metaDomain.fields.size() > 0
         }
 
-        parallelRunner.Run(4, 1000000, c)
+        parallelRunner.Run(2, 100000, c)
         println parallelRunner.toString()
         expect:
 
@@ -101,6 +100,7 @@ class MetaIntegrationSpec extends Specification {
         "testConstraintInteger"|"integerMax"|"otherthing"|-1|null
 
         "testConstraintLong"|"longUnique"|"1"|0|1l
+        "testConstraintLong"|"longUnique"|"0"|0|0l
         "testConstraintLong"|"longMax"|"9"|0|9l
         "testConstraintLong"|"longMin"|"-1"|0|-1l
         "testConstraintLong"|"longCUnique"|"-1"|0|-1l
@@ -178,52 +178,68 @@ class MetaIntegrationSpec extends Specification {
         "testConstraintInteger"|"integerMax"|null|-1
         "testConstraintInteger"|"integerMin"|null|-1
 
-//        "testConstraintLong"|"longUnique"|"1"|0
-//        "testConstraintLong"|"longMax"|"9"|0
-//        "testConstraintLong"|"longMin"|"-1"|0
-//        "testConstraintLong"|"longCUnique"|"-1"|0
-//        "testConstraintLong"|"longCMin"|"-1"|0
-//        "testConstraintLong"|"longCMax"|"-1"|0
-//        "testConstraintLong"|"longCMax"|"null"|-1
-//        "testConstraintLong"|"longCMax"|null|-1
-//        "testConstraintLong"|"longCMax"|"otherthing"|-1
-//
-//        "testConstraintFloat"|"floatUnique"|"1.15"|0
-//        "testConstraintFloat"|"floatMax"|"9"|0
-//        "testConstraintFloat"|"floatMin"|"-1"|0
-//        "testConstraintFloat"|"floatCUnique"|"-1"|0
-//        "testConstraintFloat"|"floatCMin"|"-1"|0
-//        "testConstraintFloat"|"floatCMax"|"-1"|0
-//        "testConstraintFloat"|"floatCMax"|"null"|-1
-//        "testConstraintFloat"|"floatCMax"|null|-1
-//        "testConstraintFloat"|"floatCMax"|"otherthing"|-1
-//
-//        "testConstraintDouble"|"doubleUnique"|"1.1501"|0
-//        "testConstraintDouble"|"doubleMax"|"9"|0
-//        "testConstraintDouble"|"doubleMin"|"-1"|0
-//        "testConstraintDouble"|"doubleCUnique"|"-1"|0
-//        "testConstraintDouble"|"doubleCMin"|"-1"|0
-//        "testConstraintDouble"|"doubleCMax"|"-1"|0
-//        "testConstraintDouble"|"doubleCMax"|"null"|-1
-//        "testConstraintDouble"|"doubleCMax"|null|-1
-//        "testConstraintDouble"|"doubleCMax"|"otherthing"|-1
-//
-//        "testConstraintDate"|"dateUnique"|"2018-01-01"|0
-//        "testConstraintDate"|"dateMax"|"2018-08-30"|0
-//        "testConstraintDate"|"dateMin"|"2018-08-30"|0
-//        "testConstraintDate"|"dateNullable"|"2018-08-30"|0
-//        "testConstraintDate"|"dateNullable"|"null"|0
-//        "testConstraintDate"|"dateNullable"|null|0
-//        "testConstraintDate"|"dateFormat"|"20180830"|0
-//        "testConstraintDate"|"dateFormatMax"|"20180830"|0
-//
-//        "testConstraintString"|"stringUnique"|"unique"|0
-//        "testConstraintString"|"stringMaxSize"|"1234"|0
-//        "testConstraintString"|"stringMinSize"|"1234"|0
-//        "testConstraintString"|"stringBlank"|"    "|0
-//        "testConstraintString"|"stringNullable"|""|0
-//        "testConstraintString"|"stringInList"|"AA"|0
-//        "testConstraintString"|"stringMatches"|"12345678"|0
-//        "testConstraintString"|"stringNullable"|null|0
+        "testConstraintLong"|"longUnique"|"0"|0
+        "testConstraintLong"|"longUnique"|"1"|0
+        "testConstraintLong"|"longUnique"|"-1"|0
+        "testConstraintLong"|"longMax"|"9"|0
+        "testConstraintLong"|"longMax"|"10"|0
+        "testConstraintLong"|"longMax"|"11"|-1
+        "testConstraintLong"|"longMin"|"-10"|0
+
+        "testConstraintLong"|"longMin"|"-11"|-1
+        "testConstraintLong"|"longCUnique"|"0"|-1
+        "testConstraintLong"|"longCMin"|"-10"|0
+        "testConstraintLong"|"longCMax"|"10"|0
+        "testConstraintLong"|"longCMax"|"null"|-1
+        "testConstraintLong"|"longCMax"|null|-1
+        "testConstraintLong"|"longCMax"|"otherthing"|-1
+
+        "testConstraintFloat"|"floatUnique"|"1.15"|0
+        "testConstraintFloat"|"floatUnique"|"0"|0
+        "testConstraintFloat"|"floatMax"|"9"|0
+        "testConstraintFloat"|"floatMin"|"-1"|0
+        "testConstraintFloat"|"floatCUnique"|"0"|-1
+        "testConstraintFloat"|"floatCUnique"|"-1"|0
+        "testConstraintFloat"|"floatCMin"|"-1"|0
+        "testConstraintFloat"|"floatCMax"|"-1"|0
+        "testConstraintFloat"|"floatCMax"|"null"|-1
+        "testConstraintFloat"|"floatCMax"|null|-1
+        "testConstraintFloat"|"floatCMax"|"otherthing"|-1
+
+        "testConstraintDouble"|"doubleUnique"|"1.15"|0
+        "testConstraintDouble"|"doubleUnique"|"0"|0
+        "testConstraintDouble"|"doubleMax"|"9"|0
+        "testConstraintDouble"|"doubleMin"|"-1"|0
+        "testConstraintDouble"|"doubleCUnique"|"0"|-1
+        "testConstraintDouble"|"doubleCUnique"|"-1"|0
+        "testConstraintDouble"|"doubleCMin"|"-1"|0
+        "testConstraintDouble"|"doubleCMax"|"-1"|0
+        "testConstraintDouble"|"doubleCMax"|"null"|-1
+        "testConstraintDouble"|"doubleCMax"|null|-1
+        "testConstraintDouble"|"doubleCMax"|"otherthing"|-1
+
+        "testConstraintDate"|"dateUnique"|"2018-01-01"|-1
+        "testConstraintDate"|"dateUnique"|"2018-01-02"|0
+        "testConstraintDate"|"dateMax"|"2018-01-01"|0
+        "testConstraintDate"|"dateMax"|"2018-01-10"|0
+        "testConstraintDate"|"dateMax"|"2018-01-13"|-1
+        "testConstraintDate"|"dateMin"|"2017-12-31"|0
+        "testConstraintDate"|"dateNullable"|"2018-01-01"|0
+        "testConstraintDate"|"dateNullable"|"null"|0
+        "testConstraintDate"|"dateNullable"|null|0
+        "testConstraintDate"|"dateFormat"|"20180830"|0
+        "testConstraintDate"|"dateFormatMax"|"20180101"|0
+
+        "testConstraintString"|"stringUnique"|"unique"|-1
+        "testConstraintString"|"stringUnique"|"unique1"|0
+        "testConstraintString"|"stringMaxSize"|"1234"|0
+        "testConstraintString"|"stringMaxSize"|"12345678901"|-1
+        "testConstraintString"|"stringMinSize"|"1234"|0
+        "testConstraintString"|"stringMinSize"|""|-1
+        "testConstraintString"|"stringBlank"|"    "|0
+        "testConstraintString"|"stringNullable"|""|0
+        "testConstraintString"|"stringInList"|"AA"|0
+        "testConstraintString"|"stringMatches"|"12345678"|0
+        "testConstraintString"|"stringNullable"|null|0
     }
 }

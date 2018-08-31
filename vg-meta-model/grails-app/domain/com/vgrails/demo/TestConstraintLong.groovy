@@ -13,9 +13,9 @@ class TestConstraintLong {
     static constraints = {
         longUnique unique: false
         longMax  max: 10l
-        longMin  min: 5l
+        longMin  min: -10l
         longCUnique unique: true
-        longCMax  max: 100l
-        longCMin  min: -1l
+        longCMax  max: 10l
+        longCMin  min: -10l
     }
 }

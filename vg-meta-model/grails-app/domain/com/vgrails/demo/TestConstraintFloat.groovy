@@ -13,9 +13,9 @@ class TestConstraintFloat {
     static constraints = {
         floatUnique unique: false
         floatMax  max: 10f
-        floatMin  min: 5f
+        floatMin  min: -10f
         floatCUnique unique: true
-        floatCMax  max: 100f
-        floatCMin  min: -1f
+        floatCMax  max: 10f
+        floatCMin  min: -10f
     }
 }

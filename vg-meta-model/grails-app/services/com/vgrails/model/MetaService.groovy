@@ -1,5 +1,6 @@
 package com.vgrails.model
 
+import com.vgrails.utility.VgHelper
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.validation.DefaultConstrainedProperty
 import groovy.transform.TypeCheckingMode
@@ -88,7 +89,16 @@ class MetaService {
         return metaDomain
     }
 
-    static synchronized ValidateProperty(String model, Map domain, String prop, String value){
-
+    /**
+     * 检查模型
+     * @param model
+     * @param domain
+     * @param propertyName
+     * @param value
+     * @return
+     */
+    static synchronized CheckProperty(String model, String propertyName, String value){
+        MetaDomain metaDomain = GetModel(model)
+        return VgHelper.CheckProperty(metaDomain, propertyName, value)
     }
 }

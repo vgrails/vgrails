@@ -1,6 +1,7 @@
 package com.vgrails.utility
 
 import com.vgrails.demo.Organization
+import com.vgrails.demo.TestConstraintFloat
 import com.vgrails.model.MetaDomain
 import com.vgrails.model.MetaField
 import com.vgrails.model.MetaService
@@ -111,7 +112,7 @@ class VgHelper {
             return new VgReply(code: -1, message: "属性${metaField.locale}值不满足BLANK约束")
         }
 
-        if(metaField.constraints["inList"]!=null && (metaField.constraints["inList"].containsKey(val.toString()) == false)){
+        if(metaField.constraints["inList"]!=null && (metaField.constraints["inList"].contains(val.toString()) == false)){
             return new VgReply(code: -1, message: "属性${metaField.locale}值不满足列表(inList)约束")
         }
 

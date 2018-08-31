@@ -13,9 +13,9 @@ class TestConstraintDouble {
     static constraints = {
         doubleUnique unique: false
         doubleMax  max: 10d
-        doubleMin  min: 5d
+        doubleMin  min: -10d
         doubleCUnique unique: true
-        doubleCMax  max: 100d
-        doubleCMin  min: -1d
+        doubleCMax  max: 10d
+        doubleCMin  min: -10d
     }
 }
