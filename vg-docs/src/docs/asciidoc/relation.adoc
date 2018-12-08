@@ -1,0 +1,106 @@
+:imagesdir: ./images
+:sectnums:
+
+
+### 领域模型间关系的定义
+
+框架对实体的关系处理仅包括：
+
+* 一对一：one-to-one
+* 一对多：one-to-many
+* 多对多：many-to-many
+
+其中级联删除框架不进行处理
+
+
+### 一对一(one-to-one)
+
+[plantuml, relation-one-to-one, png]
+----
+学生 "1" o-- "1" 学生证 : 拥有
+----
+
+对应模型的精简代码如下：
+[source,groovy]
+----
+class StudentCard{
+}
+
+class Student{
+    ...
+
+    StudentCard     studentCard //<1>
+
+    //约束
+    static constraints = {
+        ...
+        studentCard attributes:[associationType: 'one-to-one', associationDomain: "studentCard"] //<2>
+        ...
+    }
+}
+
+----
+<1> 在`学生`对象中声明对`学生证`对象的应用
+<2> 定义该关联类型为`one-to-one`
+
+### 一对多(one-to-many)
+
+[plantuml, relation-one-to-many, png]
+----
+组织 "1" o-- "m" 学生 : 拥有
+----
+
+对应模型的精简代码如下：
+[source,groovy]
+----
+class Organization{
+}
+
+class Student{
+    Organization owner //<1>
+    //约束
+    static constraints = {
+        ...
+        owner attributes:[associationType: 'one-to-many', associationDomain: 'organization'], nullable:true    //<2>
+        ...
+    }
+}
+----
+<1> 在`学生`对象中声明对`组织`对象的应用
+<2> 定义该关联类型为`one-to-many`
+
+### 多对多(many-to-many)
+
+[plantuml, relation-many-to-many, png]
+----
+学生 "m" -- "n" 课程: 选修课程
+----
+
+假设业务需求为记录建议选修课程，对应模型的精简代码如下：
+[source,groovy]
+----
+class Lesson{
+
+    static transients = ['suggestSelectd']   //<1>
+
+    List<Student> suggestSelectd    //<2>
+
+    static constraints = {
+         suggestSelectd attributes:[associationType: "many-to-many", associationDomain: "student"]//<3>
+    }
+}
+
+class Student{
+
+    static transients = ['suggestSelectd']
+
+    List<Lesson> suggestSelectd
+
+    static constraints = {
+        suggestSelectd attributes:[associationType: "many-to-many", associationDomain: "lesson"], nullable:true
+    }
+}
+----
+<1> 在对象中声明多对多属性为transients
+<2> 定义属性
+<3> 定义约束，并指定类型

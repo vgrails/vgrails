@@ -1,0 +1,132 @@
+:imagesdir: ./images
+:sectnums:
+
+
+### 业务背景
+
+
+演示业务场景是门店管理，领域实体包括：
+
+* 组织(Organization)：代表管理层级或区域
+* 门店(Shop)
+
+[plantuml, org-student-lesson, png]
+----
+组织  *--  组织 :上级组织
+组织 "1" --* "M" 门店 : 拥有
+----
+
+### 开始编码
+
+#### 创建模型
+
+在Grails3交互模式下输入如下命令：
+[source,shell]
+----
+create-domain com.vgrails.demo.Organization
+create-domain com.vgrails.demo.Shop
+----
+
+#### 实现组织
+
+[source,groovy]
+----
+class Organization{
+
+    //元数据
+    static m = [
+        locale: "组织", //<1>
+        search: [type: "AJAX", fields:['name', 'level']]  //<2>
+        layout = [  //<3>
+                ['parent', 'level']
+                ['name']
+        ]
+    ]
+
+    //属性
+    String          name
+    int             level
+    Organization    parent
+
+    //约束
+    static constraints = {
+        name        attributes:[locale: "名称"], size: [2..32], unique:true   //<4>
+        level       attributes:[locale: "层级"]，min: 1
+        parent      attributes:[locale: "上级"], nullable:true
+    }
+
+    String toString(){
+        return name
+    }
+}
+----
+<1> 模型元数据
+<2> 搜索参数，包括：搜索的类型，支持AJAX和Standard，字段是允许搜索的字段
+<3> 表单排版
+<4> 约束元数据
+
+#### 创建门店
+
+[source,groovy]
+----
+class Shop{
+
+    //元数据
+    static m = [
+        locale: "门店",
+        search: [type: "AJAX", fields:['name']]
+        layout = [
+                ['owner']
+                ['name']
+        ]
+    ]
+
+    //属性
+    String          name
+    Organization    owner
+
+    //约束
+    static constraints = {
+        name        attributes:[locale: "名称"], size: [2..32], unique:true
+        parent      attributes:[locale: "归属组织"], nullable:false
+    }
+
+    String toString(){
+        return name
+    }
+}
+----
+
+#### 生成页面
+生成左右布局的门店管理页面：
+[source,shell]
+----
+generate-vg \                               <1>
+        tree-view:shop:manageShop \         <2>
+        com.vgrails.demo.Organization \     <3>
+        com.vgrails.demo.Shop \             <4>
+        owner                               <5>
+----
+<1> 框架模板命令
+<2> 模板名称、Controller和Action名称，其中Controller和Action可以省略
+<3> 树实体
+<4> 展示实体
+<5> 关联字段 (如：仅有一个关联字段，可省略)
+
+NOTE: 3-5是生成参数，根据选定的模板，可能参数含义完全不同
+
+NOTE: 以上命令正常情况不需要输入换行符，为说明方便增加
+
+生成左右布局的组织管理页面：
+[source,shell]
+----
+generate-vg \
+        tree-view:shop:manageOrganization
+        com.vgrails.demo.Organization \
+        com.vgrails.demo.Organization \
+        parent
+----
+
+#### 效果展示
+
+TBD

@@ -31,6 +31,9 @@ target
 .project
 .settings
 /*/build/*
+/*/assets/*
+/*/i18n/*
+
 /*/.settings/*
 /*/out/*
 /*/*.iml
@@ -41,3 +44,7 @@ target
 /grails-docs/src/test/resources/docs/guide/single.pdf
 gradle
 .idea
+*.class
+*.pdf
+
+

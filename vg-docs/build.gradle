@@ -1,0 +1,69 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url = "http://repo.grails.org/grails/core" }
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.grails:grails-docs:3.3.5"
+        classpath 'org.codehaus.groovy:groovy-all:2.4.0'
+        classpath "org.grails:gdoc-to-asciidoc:1.0.1"
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.6'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+        classpath 'org.jruby:jruby-complete:1.7.26'
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:0.1.11'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.7'
+        classpath 'com.bluepapa32:gradle-watch-plugin:0.1.4'
+    }
+}
+
+plugins {
+    id 'org.asciidoctor.convert' version '1.5.3'
+}
+
+asciidoctorj {
+    version = '1.5.5'
+}
+
+apply plugin: "base"
+apply plugin: "java"
+apply plugin: 'org.asciidoctor.convert'
+apply plugin: 'com.github.jruby-gradle.base'
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: "org.grails.grails-gdoc-to-asciidoc"
+
+dependencies {
+    gems 'rubygems:asciidoctor-diagram:1.2.1'
+}
+
+asciidoctor {
+    dependsOn jrubyPrepareGems
+
+    requires = ['asciidoctor-diagram']
+    gemPath = jrubyPrepareGems.outputDir
+
+    description = 'vgrails-doc'
+    group = 'documentation'
+
+    sourceDir 'src/docs/asciidoc'
+    outputDir 'build/docs/asciidoc'
+    backends = ['html5', 'pdf']
+
+    attributes \
+            'source-highlighter': 'coderay',
+            'imagesdir': 'images',
+            toc                 : 'left',
+            'toc-title'           : '目录',
+            icons                    : 'font',
+            linkattrs               : true,
+            encoding                : 'utf-8',
+            'setanchors': '',
+            'idprefix': '',
+            'idseparator': '-',
+            'docinfo1': '',
+            'pdf-style': 'custom',
+            'pdf-fontsdir': 'fonts',
+            'pdf-stylesdir':'theme',
+            'graphvizdot':'C:\\opt\\graphviz\\bin\\dot.exe'
+}

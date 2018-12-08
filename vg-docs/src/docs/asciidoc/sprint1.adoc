@@ -1,0 +1,254 @@
+:imagesdir: ./images
+:sectnums:
+
+# 需求分析：SPRINT 1
+
+## 迭代成果定义
+
+### 前端
+
+* 组织(Org)和员工(Employee)的单Grid(支持单列排序)显示，需要支持关联字段的显示
+* 可用的CRUD对话框，支持`form`的配置
+* `form`需要支持defaults和TAB配置
+* 对单字段的搜索(按钮触发)
+* 增加一个自定义的Button任意将前端单选ID送到后端指定action
+* [低]通过geb实现自动化测试
+
+### 后端
+
+* 基于模板生成Service\Controller
+* 存放前端生成命令和模板的vgrails-profile (依赖vgrails-meta-plugin)
+* vgrails-profile实现基于模板生成前端的*.vue代码
+* 存放元数据、鉴权、校验和JSON等服务的插件vgrails-meta-plugin
+* 提供自动化测试用例含性能
+
+## 类型与约束
+
+### 通用类型约束
+
+* propertyName: 字段名称
+* type: 类型名称
+* locale: 本地化
+* flex: 表格列宽占比
+* unique: 是否唯一
+* editable: 能否编辑
+* display: 是否显示
+
+### String类型约束
+
+类型约束列表：
+
+* blank: 是否可以仅包含空格等不可见字符
+* inList: 列表取值
+* matches: 正则
+* notEqual: 不等
+* nullable: 非空
+* size: 长度范围
+* unique: 唯一
+
+NOTE: `creditCard`, `email`, `url`等3个grails内置约束前端不实现
+
+控件(widget)约束列表：
+
+* textarea: 针对较长的文字输入，多行文本框
+* radiobox: 通过radiobox对inList的值进行呈现
+* select: 通过select对inList的值进行呈现
+* checkbox: 实现复选框，format: ["周一", "周二", "周五", "周六"]
+* password: 密码输入
+
+### Integer/Long/Float/Double等数字类型约束
+
+类型约束列表：
+
+* max: 最大值
+* min: 最小值
+* defaults: 默认值
+* decimals: 保留小数点位数，支持float和double
+
+控件(widget)约束列表：
+
+无
+
+### Boolean类型
+
+类型约束列表：
+
+* inList: 如果为空，文本为：'是'和'否'
+* defaults: 默认值
+
+控件(widget)约束列表：
+
+* radiobox: 通过radiobox对inList的值进行呈现
+* select: 通过select对inList的值进行呈现
+
+### Date类型
+
+类型约束列表：
+
+* max: 最大值
+* min: 最小值
+* defaults: 默认值
+* nullable: 是否可空
+
+控件(widget)约束列表：
+
+* date: 日期, format = "yyyy-MM-dd" 或 "MM-dd"
+* dateTime: 日期时间, format = "yyyy-MM-dd HH:mm" 或 "yyyy-MM-dd HH"
+
+### Association类型
+
+类型约束列表：
+
+* nullable: 是否可空
+* associationType: 关系类型，如："one-to-one", "many-to-many"
+* associationDomain: 关联模型，如："Teacher"
+* owning: 是否关系的拥有方
+
+
+控件(widget)约束列表：无
+
+
+## 模型定义
+
+### 领域模型
+
+[plantuml, org-employee, png]
+----
+组织  *--  组织 : 上级组织，代表管理层级
+组织 "1" --* "M" 员工 : 组织与员工一对多
+----
+
+[source,shell]
+----
+create-domain-class com.vgrails.demo.Org
+create-domain-class com.vgrails.demo.Employee
+----
+
+### 实现组织
+
+[source,groovy]
+----
+class Org{
+
+    //元数据
+    static m = [
+            locale: "组织", //<1>
+            search: [type: "ajax", fields:['name', 'level']],  //<2>
+            form: [  //<3>
+                     defaults : [
+                             ['parent', 'level'],
+                             ['name']
+                     ],
+                     位置 : [
+                             ['country', 'province', 'city'],
+                             ['address']
+                     ],
+                     管理 : [
+                             ['manager'],
+                             ['subManager'],
+                             ['numberOfEmployee']
+                     ],
+
+                    seq:["defaults","管理", "位置"]
+            ],
+
+            grid: [ //<4>
+                    excludes:['numberOfEmployee', 'country', 'level'],
+                    max: 12
+            ],
+
+            sort: [ //<5>
+                    includes:['name', 'province', 'city', 'address', 'level']
+            ]
+    ]
+
+    //属性
+    String          name
+    Employee        manager
+    Employee        subManager
+    int             numberOfEmployee=0
+
+    String          country
+    String          province
+    String          city
+    String          address
+
+    int             level
+    Org             parent
+
+    //约束
+    static constraints = { //<5>
+        name                attributes:[locale: "名称"], size: 2..32, unique:true
+        manager             attributes:[locale: "经理", associationType: MetaFieldAssociation.one_to_one, associationDomain: "employee"], nullable: true, unique: true
+        subManager          attributes:[locale: "副经理", associationType: MetaFieldAssociation.one_to_one, associationDomain: "employee"], nullable: true
+        numberOfEmployee    attributes:[locale: "员工数量"]
+        country             attributes:[locale: "国家"]
+        province            attributes:[locale: "省份"]
+        city                attributes:[locale: "城市"]
+        address             attributes:[locale: "地址"], size: 5..64
+        level               attributes:[locale: "层级"], min: 1,max:10
+        parent              attributes:[locale: "上级", associationType: MetaFieldAssociation.many_to_one, associationDomain: "org"], nullable:true
+    }
+
+    String toString(){
+        return name
+    }
+}
+
+----
+<1> 模型元数据
+<2> 搜索参数，包括：搜索的类型，支持: ajax, standard, combo和advanced, 字段是允许搜索的字段
+<3> 表单排版，default被放在tab之外，其他
+<4> 约束元数据
+
+### 实现员工
+
+[source,groovy]
+----
+class Employee {
+
+    static m = [
+            locale: "员工"
+    ]
+
+    static transients = ['label']
+
+    Org owner
+    String name
+    String label
+
+    static constraints = {
+        owner           nullable: true, attributes:[locale: "班级", associationType: MetaFieldAssociation.many_to_one, associationDomain: "org"]
+        name            unique: true, attributes:[locale: "姓名"]
+        label           attributes: [locale: "标签"]
+    }
+
+    String getLabel() {
+        return "${name}(${owner.name})"
+    }
+
+    String toString(){
+        return name
+    }
+}
+----
+
+## 页面生成
+
+### 生成命令
+生成组织管理页面：
+[source,shell]
+----
+generate-vg \                    //<1>
+        grid:employee:index \    //<2>
+        employee \               //<3>
+----
+<1> 框架模板命令
+<2> 模板名称、Controller和Action名称，其中Controller和Action可以省略，默认controller与实体同名，action为index
+<3> 实体
+
+NOTE: 以上命令正常情况不需要输入换行符，为说明方便增加
+
+### 效果展示
+
+TBD

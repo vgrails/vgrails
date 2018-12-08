@@ -1,0 +1,37 @@
+:imagesdir: ./images
+:sectnums:
+
+
+### 主要特性
+VGRAILS主要定位于企业级应用快速开发脚手架，主要特性包括：
+
+* 模型驱动：增强的Grails Domain，支持：一对多和多对多
+* 页面生成：基于框架模板生成后台页面和操作
+* 状态监控：调用统计、性能分析
+* 测试框架：提供功能、异常和性能测试的基础框架
+* 文档支持：提供业务和API文档的自动生成和管理
+
+### 架构思想
+
+架构的基本思想是：
+
+* 拒绝重复，DRY(Don't Repeat Youself)
+* 约定优于配置，CoC(Convention Over Configuration)
+
+### 整体生态
+
+.整体生态
+|===
+|项目|功能|版本
+|http://www.grails.org[GRAILS]
+|基于Groovy的快速开发框架
+|3.3.5
+|http://www.vuejs.org[VUE]
+|渐进式JavaScript框架
+|2.5.x
+|http://www.iviewui.com[iView]
+|基于Vue.js的高质量UI组件库
+|2.13.1
+
+|===
+
