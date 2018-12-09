@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<title>Spline Chart</title>
+	<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript"></script>
+	<link rel="STYLESHEET" type="text/css" href="../../../codebase/webix.css?v=6.1.1">
+	<script src="../../common/chartdata.js?v=6.1.1"></script>
+<body>
+    <div id="chartDiv" style="width:600px;height:250px;margin:20px"></div>
+	<script>
+        webix.ui({
+            view:"chart",
+            container:"chartDiv",
+            type:"spline",
+            value:"#sales#",
+            item:{
+                borderColor: "#ffffff",
+                color: "#000000"
+            },
+            line:{
+                color:"#ff9900",
+                width:3
+            },
+            xAxis:{
+                template:"'#year#"
+            },
+            offset:0,
+            yAxis:{
+                start:0,
+                end:100,
+                step:10,
+                template:function(obj){
+                    return (obj%20?"":obj)
+                }
+            },
+            data: dataset
+        });
+	</script>
+</body>
+</html>

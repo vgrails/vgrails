@@ -1,4 +1,2 @@
-include 'vg-demo'
-include 'vg-meta-model'
-include 'vg-render-webix'
-include 'vg-docs'
+include 'app-demo'
+include 'vgrails-plugin'

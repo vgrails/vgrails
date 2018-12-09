@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../../codebase/webix.css?v=6.1.1" type="text/css"   charset="utf-8">
+    <script src="../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+    <title>Icons Cheatsheet</title>
+    <style>
+        .awesome .webix_icon{
+            font-family:"Webix Awesome Icons";
+            margin:2px 10px;
+        }
+        .material .webix_icon{
+            font-family:"Webix Material Icons";
+            font-size:20px;
+            margin:0px 10px;
+        }
+        .webix_icon:hover{
+            color:#1CA1C1;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+
+    var icons = [
+        "wxi-angle-down", "wxi-angle-left", "wxi-angle-right", "wxi-angle-up", "wxi-angle-double-right",
+        "wxi-angle-double-left", "wxi-clock", "wxi-calendar", "wxi-search", "wxi-dots", "wxi-close",
+        "wxi-checkbox-marked", "wxi-checkbox-blank", "wxi-trash", "wxi-pencil", "wxi-eye", "wxi-eye-slash", 
+        "wxi-columns", "wxi-drag", "wxi-check", "wxi-underline", "wxi-bold", "wxi-italic", "wxi-sync", 
+        "wxi-plus-square", "wxi-minus-square", "wxi-menu-down", "wxi-menu-right", "wxi-menu-left", 
+        "wxi-folder", "wxi-folder-open", "wxi-file", "wxi-close-circle", "wxi-alert", 
+        "wxi-radiobox-blank", "wxi-radiobox-marked", "wxi-angle-double-down", "wxi-angle-double-up", "wxi-plus-circle", 
+        "wxi-minus-circle", "wxi-plus", "wxi-minus", "wxi-download", "wxi-user"
+    ];
+
+    var tpl = function(){
+        var html = "";
+        for(var i = 0; i<icons.length; i++){
+            var num = i+1;
+            var content = "f0"+(num<10?"0":"")+num;
+            html += (content+" <span class='webix_icon "+icons[i]+"'></span>"+icons[i]+"<br>");
+        }
+        return html;
+    }
+
+    webix.ui({
+        view:"scrollview",
+        body:{
+            cols:[
+                { header:"Webix Awesome Icons (Flat, Compact, Contrast)", body:{ css:"awesome", template:tpl, autoheight:true}},
+                { header:"Webix Material Icons (Material, Mini)", body:{ css:"material", template:tpl, autoheight:true }}
+            ]
+        }
+    });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+		<title>Events invoked in DataTable</title>
+
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+		<script src="../common/testdata.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class='header_comment'>Events invoked in DataTable</div>
+		<div class='sample_comment'>The sample allows you to see events that can be invoked while 'dealing' with DataTable.</div>
+		<div class="sample_comment">Click anywhere in the grid. Check the console, for more detailed log.</div>
+
+		<div id="testA"></div>
+		<script type="text/javascript" charset="utf-8">
+		webix.ready(function(){
+			grid = webix.ui({
+				container:"testA",
+				view:"datatable",
+			    columns:[
+			      { id:"rank", header:"", css:"rank", width:50},
+			      { id:"mark", header:"", template:"{common.checkbox()}", width:40},
+			      { id:"title", header:"Film title", width:200, template:"#title#", editor:"text"},
+			      { id:"year", header:"Released", width:80},
+			      { id:"votes", header:"Votes", width:100}
+			    ],
+			    select:"cell",
+			    editable:true,
+			    autoheight:true,
+			    autowidth:true,
+			    data:small_film_set,
+			    on:{
+			      onItemClick:function(){  logEvent("click","Cell clicked",arguments);  },
+			      onAfterSelect:function(){  logEvent("select:after","Cell selected",arguments);  },
+			      onCheck:function(){  logEvent("check","Checkbox",arguments);  },
+			      onAfterEditStart:function(){  logEvent("edit:afterStart","Editing started",arguments);  },
+			      onAfterEditStop:function(){  logEvent("edit:afterStop","Editing ended",arguments);  },
+			    }
+			});		
+
+			function logEvent(type, message, args){
+			    webix.message({ text:message, expire:2500 });
+			    console.log(type);
+			    console.log(args);
+  			};
+		});
+		</script>
+	</body>
+</html>

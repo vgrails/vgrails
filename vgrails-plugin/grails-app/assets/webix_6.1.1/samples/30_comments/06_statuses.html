@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+	<title>Comments::User Statuses</title>
+	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+
+	<script type="text/javascript" src="../../codebase/webix.js?v=6.1.1"></script>
+	<link rel="stylesheet" type="text/css" href="../../codebase/webix.css?v=6.1.1">
+
+	<script src="./common/data.js?v=6.1.1" type="text/javascript"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		webix.ready(function(){
+			webix.ui({
+				view:"comments",
+				id:"comments",
+				width: 450,
+				currentUser:4,
+				data: commentsData,
+				users: [
+					{ id:1, value:"Corvo Attano", image: "./common/imgs/corvo.jpg", status:"none" },
+					{ id:2, value:"Daisy Fitzroy", image: "./common/imgs/daisy.jpg", status:"busy" },
+					{ id:3, value:"Glenn Crake", image: "./common/imgs/glenn.jpg", status:"busy"  },
+					{ id:4, value:"Me", image: "./common/imgs/tomek.jpg", status:"active" },
+					{ id:5, value:"Leia Organa", image: "./common/imgs/leia.jpg", status:"away" }
+				]
+			});
+
+			setTimeout(function(){
+				$$("comments").getUsers().updateItem(3, {status:"active"});
+			}, 2000);
+		});
+	</script>
+</body>
+</html>

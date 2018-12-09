@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../../codebase/webix.css?v=6.1.1" type="text/css"   charset="utf-8">
+    <script src="../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+    <title>Shadows</title>
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.css?v=6.1.1" type="text/css" charset="utf-8">
+    <script type="text/javascript" src="../common/testdata.js?v=6.1.1"></script>
+</head>
+<body>
+    <div id="areaA"></div>
+    <script type="text/javascript">
+
+   var win = webix.ui({
+        view:"popup", 
+        css:"webix_shadow_none",
+        body:{
+            view:"form", rows:[ 
+                { view:"text", label:"Login"},
+                { view:"text", label:"Name"},
+                { view:"button", type:"form", value:"Save"}
+            ]
+        }
+    });
+
+    var chart1 = {
+        css:"webix_shadow_big", view:"chart", type:"pie", value:"#votes#", data:small_film_set
+    };
+    var chart2 = {
+        view:"chart", css:"webix_shadow_big",type:"spline", value:"#votes#", data:small_film_set
+    };
+    var list = {
+        view:"list", css:"webix_shadow_big",template:"#votes#", data:small_film_set, scroll:false, select:true
+    };
+    var grid = {
+        view:"datatable", css:"webix_shadow_big", autoConfig:true, data: small_film_set, scroll:false, tooltip:true
+    };
+
+    webix.ready(function(){
+
+        webix.ui({
+            container:"areaA",
+            width:800, height:600, type:"form",
+            margin:15, rows:[
+                { view: "toolbar", id:"toolbar", css:"webix_shadow_medium", elements:[
+                     { view: "label", label: "Demo" },
+                     {},
+                     { view:"icon", icon:"mdi mdi-account", click:function(){
+                        if(!win.isVisible())
+                            win.show(this.$view);
+                     }}
+                ]},
+                { type:"clean", borderless:true, cols:[
+                    { margin:20, type:"form", padding:10, rows:[
+                        chart1, list
+                    ]},
+                    { margin:20, type:"form", padding:10, rows:[
+                        chart2, grid
+                    ]}
+                ]},
+                { view:"label", label:"Footer", align:"center", css:"webix_shadow_small", borderless:false}
+            ]
+        });
+
+    });
+    </script>
+</body>
+</html>

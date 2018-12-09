@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Custom sizing</title>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+		<script src="./testdata.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+		<div id="buttonBox">
+			<input type="button" id="resize" value="resize" onclick='doResize()'> 
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			function doResize(){
+				$$('grid').define("height", 100);
+				$$('grid').resize();
+
+				$$('areaA').define("width", 10);
+				$$('areaB').define("width", 10);
+				$$('top').resize(true);
+			};
+
+			webix.ready(function(){
+				webix.ui({
+					id:"top", cols:[
+						{ width:100, id:"areaB" },
+						{ rows:[
+							{ content:"buttonBox" },
+							{
+								id:"grid",
+								view:"datatable",
+								columns:[{ id:"a" },{ id:"b" },{ id:"c" },{ id:"d" },{ id:"e" }],
+								data:big_test_matrix
+							},
+							{}
+						]},
+						{ rows:[
+							{},
+							{
+								id:"grid2",
+								view:"datatable",
+								columns:[{ id:"a" },{ id:"b" },{ id:"c" },{ id:"d" },{ id:"e" }],
+								data:big_test_matrix
+							},
+							{}
+						]},
+						{ width:100, id:"areaA" }
+					]
+				})
+			});
+		</script>
+	</body>
+</html>

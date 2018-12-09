@@ -1,0 +1,31 @@
+const locale = {
+	or: "або",
+	and: "і",
+	delete_rule: "Выдаліць правіла",
+	add_rule: "Дадаць правіла",
+	add_group: "Дадаць групу",
+	less: "менш",
+	less_or_equal: "менш або роўна",
+	greater: "больш",
+	greater_or_equal: "больш або роўна",
+	between: "паміж",
+	not_between: "не паміж",
+	begins_with: "пачынаецца з",
+	not_begins_with: "не пачынаецца з",
+	contains: "змяшчае",
+	not_contains: "не змяшчае",
+	ends_with: "заканчваецца",
+	not_ends_with: "не сканчаецца",
+	is_empty: "пуста",
+	is_not_empty: "не пуста",
+	equal: "роўныя",
+	not_equal: "не роўныя",
+	is_null: "роўная нуля",
+	is_not_null: "не роўная нуля",
+	default_option: "---",
+	cancel: "адмяніць",
+	filter: "фільтраваць",
+	sort: "сартаваць"
+};
+
+export default locale;

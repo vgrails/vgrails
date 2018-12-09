@@ -2,8 +2,8 @@
 
 ROOT_DIR=`pwd`
 
-APP='vg-demo'
-PLUGINS='vg-meta-model vg-render-webix'
+APP='app-demo'
+PLUGINS='vgrails-plugin'
 
 cd $ROOT_DIR
 mkdir -p ./$APP/

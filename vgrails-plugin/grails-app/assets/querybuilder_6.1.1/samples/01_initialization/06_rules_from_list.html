@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Querybuilder set rules from list</title>
+		<script src="../../codebase/webix/webix.js?v=6.1.1" type="text/javascript"></script>
+		<script type="text/javascript" src="../../codebase/querybuilder.js?v=6.1.1"></script>
+		
+		<link rel="stylesheet" type="text/css" href="../../codebase/webix/webix.css?v=6.1.1">
+		<link rel="stylesheet" type="text/css" href="../../codebase/querybuilder.css?v=6.1.1">
+	</head>
+	<style type="text/css">
+		.webix_scrollview {
+			background-color: #ddd;
+		}
+	</style>
+	<body>
+		<script type="text/javascript" charset="utf-8">
+			var ruleRatingVotes = {
+				glue:"and",
+				rules:[
+					{ key:"rating", value:8, rule:"equal" },
+					{ 
+					glue:"or",
+					rules:[
+						{ key:"votes", value:511495, rule:"less" },
+						{ key:"votes", value:213030, rule:"greater" }
+					]
+					}
+				]
+			};
+
+			var ruleTitle = {
+				glue:"or",
+				rules:[
+					{ key:"title", value:"The Godfather", rule:"contains" },
+					{ key:"title", value:"fiction", rule:"contains" }
+				]
+			};
+			
+			var ruleYear = {
+				glue:"or",
+				rules:[
+					{ key:"year", value:1957, rule:"equal" },
+					{ 
+					glue:"and",
+					rules:[
+						{ key:"year", value:1994, rule:"less" },
+						{ key:"year", value:1966, rule:"greater" }
+					]
+					}
+				]
+			};
+
+			var ruleCategory = {
+				glue:"or",
+				rules:[
+					{ key:"category", rule:"is_empty" },
+					{ key:"category", value:"Western", rule:"contains" }
+				]
+			};
+
+			// any list data can be used(just pass rules object as any property 
+			// or covert any property to querybuilder setValue function accepted format
+			var data = [
+				{ id:1, value:ruleRatingVotes, title: "Filter by Rating and Votes"},
+				{ id:2, value:ruleTitle, title:"Filter by Title"},
+				{ id:3, value:ruleYear, title:"Filter by Year"},
+				{ id:4, value:ruleCategory, title:"Filter by Category"}
+			];
+
+			var small_film_set = [
+				{ id:1, title:"The Shawshank Redemption", year:1994, votes:678790, rating:9, rank:1, category:"Thriller"},
+				{ id:2, title:"The Godfather", year:1972, votes:511495, rating:9, rank:2, category:"Crime"},
+				{ id:3, title:"The Godfather: Part II", year:1974, votes:319352, rating:9, rank:3, category:""},
+				{ id:4, title:"The Good, the Bad and the Ugly", year:1966, votes:213030, rating:7, rank:4, category:"Western"},
+				{ id:5, title:"Pulp fiction", year:1994, votes:533848, rating:8, rank:5, category:"Crime"},
+				{ id:6, title:"12 Angry Men", year:1957, votes:164558, rating:8, rank:6, category:"Western"}
+			];
+
+			var fields = [
+				{ id:"rating", value:"Rating", type:"number" },
+				{ id:"title", value:"Title",  type:"string" },
+				{ id:"votes",  value:"Votes", type:"number" },
+				{ id:"year",  value:"Year", type:"number" },
+				{ id:"category",  value:"Category", type:"string" }
+			];
+
+			var qb = {
+				view: "querybuilder",
+				id: "querybuilder",
+				fields: fields,
+				maxLevel: 4
+			};
+
+			var list = {
+				view:"list",
+				width:250,
+				height:200,
+				template:"#title#",
+				select:true,
+				data:data,
+				on: {
+					onAfterSelect:function(id) {
+						$$("querybuilder").setValue(
+							webix.copy(this.getItem(id).value)
+						);
+						$$("querybuilder").focus();
+					}
+				}
+			};
+
+			var grid = {
+				view:"datatable",
+				id: "datatable1",
+				columns:[
+					{ id:"title",   header:"Film title",    fillspace:true,  sort:"string"},
+					{ id:"year",    header:"Released",  width:100,  sort:"int"},
+					{ id:"votes",   header:"Votes",         width:100,  sort:"int"},
+					{ id:"rating",  header:"Rating",        width:70,  sort:"int"},
+					{ id:"category", header:"Category", width:100},
+				],
+				borderless:false,
+				autoheight:true,
+				data:small_film_set
+			};        
+
+			webix.ready(function(){
+				webix.ui({
+					cols:[
+						list,
+						{rows: [ qb, grid ]}
+					]
+				});
+
+				$$("querybuilder").attachEvent("onChange", function() {
+					$$("datatable1").filter($$('querybuilder').getFilterHelper());
+				});
+			});
+		</script>
+	</body>
+</html>

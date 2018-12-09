@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+	<title>Comments:: Template</title>
+	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+
+	<script type="text/javascript" src="../../codebase/webix.js?v=6.1.1"></script>
+	<link rel="stylesheet" type="text/css" href="../../codebase/webix.css?v=6.1.1">
+	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.css?v=6.1.1" type="text/css" charset="utf-8">
+
+	<script src="./common/data.js?v=6.1.1" type="text/javascript"></script>
+
+	<style>
+		.comment{
+			background: #F4F5F9;
+			border-radius: 0px 25px 25px 25px;
+			padding: 5px;
+		}
+		.user{
+			font-size: 16px; 
+			display:inline-block;
+		}
+		.avatar{
+			background-color:#F4F5F9;
+			border-radius:50%;
+			width:40px;
+			height:40px;
+			line-height:40px;
+			font-weight:500;
+			text-align:center;
+			color:#1CA1C1;
+			display:inline-block;
+			margin:0 10px 10px 0px;
+		}
+		.webix_comments_icons{
+			text-align: center;
+			color: #1CA1C1;
+			cursor: pointer;
+			float:right;
+			font-size:24px;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		webix.ready(function(){
+			webix.ui({
+				view:"comments",
+				width: 450,
+				currentUser:4,
+				id:"comments",
+				data: commentsData,
+				users: usersData,
+				listItem:{
+					templateUser:function(obj){
+						var user = $$("comments").getUsers().getItem(obj.user_id).value;
+						return "<span class='user'>"+user+"</span>";
+					},
+					templateMenu: function(obj, common){
+						var html = "<span class = 'webix_comments_icons'>";
+						html += "<span class='star mdi mdi-star"+(obj.star?"":"-outline")+"'></span>";
+						if($$("comments").config.currentUser == obj.user_id)
+							html += "<span class='webix_comments_menu mdi mdi-chevron-down'></span>";
+						html += "</span>";
+						return html;
+					},
+					templateDate: function(){
+						return "";
+					},
+					templateText: function(obj){
+						return "<div class = 'comment'>"+obj.text+"</div>"
+					},
+					templateAvatar: function(obj, common){
+						var user = $$("comments").getUsers().getItem(obj.user_id);
+						var parts = user.value.split(" ");
+						var letters = parts[0][0].toUpperCase()+(parts[1]?parts[1][0].toUpperCase():"");
+						return "<span class='avatar'>"+letters+"</span>";
+					},
+					menuPosition:{pos:"bottom", x:0}
+				}
+			});
+
+			$$("comments").queryView({view:"list"}).on_click.star = function(e, id){ 
+				var obj = this.getItem(id);
+				this.updateItem(id, {star:!obj.star});
+			}
+		});
+
+	</script>
+</body>
+</html>

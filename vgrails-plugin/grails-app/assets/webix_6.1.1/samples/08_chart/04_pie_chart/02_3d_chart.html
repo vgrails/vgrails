@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+	<title>3D Pie Chart</title>
+	<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript"></script>
+	<link rel="STYLESHEET" type="text/css" href="../../../codebase/webix.css?v=6.1.1">
+	<script src="../../common/chartdata.js?v=6.1.1"></script>
+<body>
+    <div id="chartDiv" style="width:400px;height:250px;margin:20px"></div>
+	<script>
+        webix.ui({
+            view: "chart",
+            type:"pie3D",
+            container:"chartDiv",
+            value:"#sales#",
+            color:"#color#",
+            label:"#month#",
+            pieInnerText:"#sales#",
+            shadow:0,
+            data:month_dataset
+        });
+	</script>
+</body>
+</html>

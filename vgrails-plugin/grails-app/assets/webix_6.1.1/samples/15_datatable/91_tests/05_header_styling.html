@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Header styling</title>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+		<script src="../common/testdata.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+
+		<div id="testC"></div>
+
+		<style>
+		.webix_column > div:nth-child(even) {
+			background-color: inherit;
+		}
+		</style>
+		
+		<script type="text/javascript" charset="utf-8">
+		webix.ready(function(){
+			grid = webix.ui({
+				container:"testC",
+				view:"datatable",
+				columns:[
+					{ id:"rank",	css:{ "background":"red" }, header:{ 
+						text:"Film title", css:{ "background":"#AFA" }
+					} , width:200 },
+					{ id:"title",	header:{ 
+						text:"Film title", css:{ "background":"#AFA" }
+					} , width:200 },
+					{ id:"year", css:{ "background":"#AFA" },	header:{ 
+						text:"Film title"
+					} , width:200 },
+					{ id:"votes",	css:{ "text-align":"center" }, header:{ 
+						text:"Film title", css:{ "text-align":"right" }
+					} , width:200 }
+				],
+				data:small_film_set,
+				autowidth:true,
+				autoheight:true
+			});			
+		});		
+		</script>
+	</body>
+</html>

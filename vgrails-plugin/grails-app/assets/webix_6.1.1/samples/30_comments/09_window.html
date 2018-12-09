@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+	<title>Comments:: Window</title>
+	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+
+	<script type="text/javascript" src="../../codebase/webix.js?v=6.1.1"></script>
+	<link rel="stylesheet" type="text/css" href="../../codebase/webix.css?v=6.1.1">
+
+	<script src="./common/data.js?v=6.1.1" type="text/javascript"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		webix.ready(function(){
+
+			webix.ui({
+				view:"window",
+				id:"chat",
+				width:500, height:600,
+				move:true,
+				position:"center",
+				head:{
+					cols:[
+						{ view:"label", align:"center", label:"Comments"},
+						{ view:"icon", icon:"wxi-close", click:function(){
+							this.getTopParentView().hide();
+						}}
+					]
+				},
+				body:{
+					view:"comments",
+					currentUser:4,
+					data: commentsData,
+					users: usersData
+				}
+			});
+
+			webix.ui({
+				view:"button", padding:10, width:200, value:"Show Comments", click:function(){
+					$$("chat").show();
+				}
+			});
+			
+		});
+	</script>
+</body>
+</html>

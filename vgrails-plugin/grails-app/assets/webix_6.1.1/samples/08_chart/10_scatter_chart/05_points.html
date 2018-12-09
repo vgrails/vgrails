@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+    <head>
+    <title>Scatter Chart: Points, Shapes and Lines</title>
+    <script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="../../../codebase/webix.css?v=6.1.1">
+    <script src="../../common/chartdata.js?v=6.1.1"></script>
+    <body>
+        <div id="chartDiv" style="width:850px;height:550px;margin:20px"></div>
+        <script>
+            webix.ui({
+                view:"chart",
+                container:"chartDiv",
+                type:"scatter",
+                xValue: "#a#",
+                alpha: 0.1,
+                legend:{
+                    values:[
+                        { text:"Normal Zone",color:"#73b2de"},
+                        { text:"Static Sensors", color:"#a184ee"},
+                        { text:"Dynamic Sensor",color:"#ffcf4d"}
+                    ],
+                    align:"right",
+                    valign:"middle",
+                    layout:"y",
+                    width: 130,
+                    margin: 8
+                },
+                yAxis:{
+                    title:"Parameter Y", step:1,
+                    start:0, end:20
+                },
+                xAxis:{
+                    title:"Parameter X", step:1,
+                    start:0, end:20,
+                    template:function(value){
+                        if(value>0) return value;
+                    }
+                },
+                series:[
+                    //area
+                    {
+                        value:"#b#",
+                        shape:true,
+                        disableItems:true,
+                        disableLines:false,
+                        line:{
+                            color:"#73b2de",
+                            width:2
+                        },
+                        fill:"#73b2de"
+                    },
+                    //points
+                    {
+                        value:"#c#",
+                        disableItems:false,
+                        disableLines:true,
+                        item:{
+                            color:"#a184ee",
+                            radius:10,
+                            borderColor:"#906eeb"
+                        },
+                        tooltip:{
+                            template:"X: #a#, Y: #c#"
+                        }
+                    },
+                    //line
+                    {
+                        shape:false,
+                        value:"#d#",
+                        disableItems:false,
+                        disableLines:false,
+                        item:{
+                            color: "#ffcf4d",
+                            borderColor:"#ff4000",
+                            type: "d",
+                            radius:5
+                        },
+                        line:{
+                            color:"#ffcf4d",
+                            width:2
+                        },
+                        tooltip:{
+                            template:"X: #a#, Y: #d#"
+                        }
+                    }
+                ],
+                data:scatter_dataset3
+            });
+
+        </script>
+    </body>
+</html>

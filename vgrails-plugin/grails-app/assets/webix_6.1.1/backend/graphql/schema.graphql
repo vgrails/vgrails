@@ -1,0 +1,55 @@
+schema {
+    query: Query,
+    mutation: Mutation
+}
+
+
+type Query {
+    getProduct(id: String!): Product
+    getPackage(id: String!): Package
+    getCategories(id: String!): [Category]
+    getAllProducts: [Product]
+    getAllPackages: [Package]
+}
+
+type Mutation {
+    updatePackage(package: PackageInput!): Package
+    addProduct(product: ProductInput) : SaveResponse
+    updateProduct(id: String!, product: ProductInput) : SaveResponse
+    deleteProduct(id: String!) : SaveResponse
+}
+
+type Category {
+    name: String
+    kids: [ Category ]
+}
+
+type Product {
+    id: String
+    name: String
+    docslink: String
+    packages: [Package]
+}
+
+type Package {
+    id: String
+    name: String
+    url: String
+    product: Product
+}
+
+type SaveResponse {
+    status: Boolean!
+    id: String
+}
+
+input PackageInput {
+    id: String!
+    name: String!
+    url: String!
+}
+
+input ProductInput {
+    id: String
+    name: String!
+}

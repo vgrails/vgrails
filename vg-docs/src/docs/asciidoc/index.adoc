@@ -1,5 +1,5 @@
 = VGRAILS企业级应用开发框架
-Bale Lin, Jason Wu, Harry Lin, Ralph Zheng
+Bale Lin
 :version: 0.1.0
 :source-highlighter: 'coderay'
 :imagesdir: './images'
@@ -7,11 +7,10 @@ Bale Lin, Jason Wu, Harry Lin, Ralph Zheng
 :sectnums:
 [[summary]]
 == 整体概述
-
 include::summary.adoc[]
 
 [[tutorial]]
-== 功能演示
+== 快速上手
 include::tutorial.adoc[]
 
 [[relation]]

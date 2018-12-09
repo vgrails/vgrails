@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Checkbox with checkValue</title>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+		<script src="../common/testdata.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="testA"></div>
+		<script type="text/javascript" charset="utf-8">
+		small_wide_film_set[0].ch1 = "on";
+		small_wide_film_set[1].ch1 = "off";
+		small_wide_film_set[2].ch1 = 1;
+		small_wide_film_set[3].ch1 = true;
+		small_wide_film_set[0].ra1 = "on";
+		small_wide_film_set[1].ra1 = "off";
+		small_wide_film_set[2].ra1 = 1;
+
+		small_wide_film_set[0].ch2 = "on";
+		small_wide_film_set[1].ch2 = "off";
+		small_wide_film_set[2].ch2 = 1;
+		small_wide_film_set[3].ch2 = true;
+		small_wide_film_set[0].ra2 = "on";
+		small_wide_film_set[1].ra2 = "off";
+		small_wide_film_set[2].ra2 = 1;
+		webix.ready(function(){
+			grida = webix.ui({
+				container:"testA",
+				view:"datatable",
+				columns:[
+					{ id:"ch1", header:{ content:"masterCheckbox" }, template:"{common.checkbox()}", width:40, checkValue:"on"},
+					{ id:"ra1", header:"", template:"{common.radio()}", width:40, checkValue:"on"},
+					{ id:"ch2", header:{ content:"masterCheckbox" }, template:"{common.checkbox()}", width:40 },
+					{ id:"ra2", header:"", template:"{common.radio()}", width:40 }
+				],
+				
+				autoheight:true,
+				autowidth:true,
+				
+
+				data: webix.copy(small_wide_film_set)
+			});
+
+
+			
+								
+		});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css"   charset="utf-8">
+	<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+	<title>RangeSlider:: Vertical</title>
+</head>
+<body>
+<script type="text/javascript" charset="utf-8">
+
+	webix.ui({
+		width:550,
+		view:"form",
+		rows:[
+			{ type:"section", template:"Fixed title"},
+			{ height:200, cols:[
+				{ view:"rangeslider", width:100, value:"10,60", 
+					title: webix.template("#value#"), vertical:true, moveTitle:false},
+				{ view:"rangeslider", type:"alt", width:100, value:"10,55", title:function(obj){
+					var v = obj.value;
+					return (v[0]==v[1]?v[0]: v[0]+" - "+v[1]);
+				}, vertical:true, moveTitle:false },
+				{ view:"rangeslider", width:170, value:"10,100", 
+					title: webix.template("Selected: #value#"), vertical:true, moveTitle:false},
+				{}
+			]},
+			{ type:"section", template:"Moving titles"},
+			{ height:200, cols:[
+				{ view:"rangeslider", value:"15,60", width:70, title: webix.template("#value#"), vertical:true },
+				{ view:"rangeslider", value:"20,40", width:70, title: webix.template("#value#"), vertical:true },
+				{ view:"rangeslider", value:[30,90], type:"alt", width:70, title: webix.template("#value#"), vertical:true },
+				{}	
+			]},
+			{ type:"section", template:"No titles"},
+			{ height:200, cols:[
+				{ view:"rangeslider", value:"15,60", width:40, vertical:true },
+				{ view:"rangeslider", value:"20,70", width:40, vertical:true },
+				{ view:"rangeslider", value:[10,55], type:"alt", width:40, vertical:true },
+				{}
+			]}
+		]
+	});
+
+</script>
+
+</body>
+</html>

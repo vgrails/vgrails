@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dynamic Loading</title>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+	</head>
+	<body>
+		<div class='header_comment'>Dynamic loading</div>
+		<div class='sample_comment'>Dynamic loading of JSON data</div>
+		<div id="testA" style='width:250px; height:250px; float:left'></div>
+		<div id="testB" style='width:250px; height:250px; float:left'></div>
+		<div class='sample_comment' style='clear:both; padding-top:100px'>
+			
+		
+		<script type="text/javascript" charset="utf-8">
+
+		webix.ready(function(){
+		
+			//standard loading
+			tree1 = webix.ui({
+				container:"testA",
+				view:"tree",
+				url:"/samples/server/projects"
+			});
+
+			//dynamic loading
+			tree2= webix.ui({
+				container:"testB",
+				view:"tree",
+				url:"/samples/server/projects_dynamic"
+			});
+
+		});
+		</script>
+	</body>
+</html>

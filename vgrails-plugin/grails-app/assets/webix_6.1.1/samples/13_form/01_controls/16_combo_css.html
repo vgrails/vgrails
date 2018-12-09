@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css"   charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+        
+        <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.css?v=6.1.1" type="text/css" charset="utf-8">
+		<title>Styling Combo Icons</title>
+	</head>
+	<style type="text/css">
+        .webix_input_icon.wxi-angle-down:before{
+            content:"";
+            background-image: url("search.png");
+            width:20px;
+            height:20px;
+            display:block;
+        }
+        .webix_el_combo span.webix_input_icon{
+            background-color:transparent;
+            padding-right:10px;
+        }
+	</style>
+	<body>
+		<div id="test" style="width:300px;"></div>
+	<script type="text/javascript" charset="utf-8">
+
+    var options = [
+        { id:1, value:"Banana"  },
+        { id:2, value:"Papaya"  },
+        { id:3, value:"Apple" }
+    ];
+
+	webix.ui({
+		view:"form", width:400, container:"test", elements:[
+            {view:"richselect", label: 'Other MDI Icon', value:1, options:options, icon:"mdi mdi-arrow-down"},
+    		{view:"combo", label: 'Custom Icon', value:1, options:options}
+    	],
+        elementsConfig:{
+            labelWidth:180
+        }
+	});
+	</script>
+	</body>
+</html>

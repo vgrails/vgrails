@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <title>Data sync with Websockets</title>
+        <link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="../../common/samples.css?v=6.1.1">
+        <style type="text/css">
+            .webix_list_item span{
+                font-weight: bold;
+                min-width: 100px;
+                float: left;
+                text-align: center;
+            }
+            .webix_list_item span.own{
+                color:#4a4;
+            }
+        </style>
+    
+        <script type="text/javascript" src="/samples/server/faye/client.js?v=6.1.1"></script>
+    </head>
+    <body>
+    <script type="text/javascript">
+        var dataProxy = webix.proxy("faye", "/data", {
+            client: new Faye.Client('/samples/server/faye'),
+            clientId: webix.uid()
+        });
+
+        var user_name = "Guest " + Math.ceil(Math.random()*9999);
+    
+        function send_message(){
+            var text = $$("message").getValue();
+    
+            if (text){
+                if (text.indexOf("/nick ") == 0){
+                    user_name = text.substr(6);
+                    
+                } else
+                    $$("chat").add({
+                        user:  user_name,
+                        value: text
+                    });
+            }
+    
+    
+            $$("message").setValue("");
+            $$("message").focus();
+        }
+        function chat_template(obj){
+            return "<span "+(obj.user == user_name ? "class='own'" : "" )+">"+obj.user+"</span> "+obj.value;
+        }
+    
+    
+    
+        webix.ui({ 
+            rows:[
+                { template:"Webix Based Chat", type:"header" },
+                {
+                    view: "list", id:"chat", gravity:3,
+                    url:  dataProxy, save: dataProxy,
+                    type:{ height:"auto" },
+                    template:chat_template
+                },
+                { cols: [
+                    { view:"text", id:"message", placeholder:"Type message here", gravity: 3},
+                    { view:"button", value: "Send", click:send_message }
+                ]}
+            ], type:"space", margin:2
+        });
+    
+        webix.dp($$("chat")).ignore(function(){
+            $$("chat").add({
+                user:"System", value:"Welcome to chat :)"
+            });
+            $$("chat").add({
+                user:"System", value:"Uset '/nick Name' to set a name"
+            });
+        });
+    
+        $$("chat").attachEvent("onAfterAdd", function(id){
+            webix.delay(function(){
+                this.showItem(id);
+            }, this);
+        })
+    
+    
+        webix.UIManager.addHotKey("Enter", send_message, $$("message"));
+        webix.UIManager.setFocus($$("message"));
+    </script>
+    
+    </body>
+    </html>
+    

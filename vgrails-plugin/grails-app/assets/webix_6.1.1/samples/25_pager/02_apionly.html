@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Non-visible pager</title>
+		<link rel="stylesheet" href="../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+		<script src="../15_datatable/common/testdata.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class='header_comment'>Non-visible paging</div>
+		<div class='sample_comment'>Paging can be initialized without any visible UI.</div>
+		</br>
+		<div id="testA" style='height:500px; width:300px;'></div>
+		
+		<script type="text/javascript" charset="utf-8">
+
+		webix.ui({
+			container:"testA", 
+			margin:20,
+			rows:[
+				{
+					view:"datatable",
+					columns:[
+						{ id:"rank",	header:"#", 		width:50,	sort:"int",	css:"rank"},
+						{ id:"title",	header:"Film title",width:200,	sort:"string"},
+						{ id:"year",	header:"Released" , width:80,	sort:"int"},
+						{ id:"votes",	header:"Votes", 	width:100,	sort:"int"}
+					],
+					autowidth:true,
+					pager:{
+						id:"pagerA",
+						apiOnly:true,
+						size:50,
+						group:5
+					},
+					data:big_film_set
+				},
+				{cols:[
+        			{rows:[
+      					{view:"button", value:"Get Current Page", click:get_page,   inputWidth:200},
+				  		{view:"button", value:"Jump to Start",    click:first_page, inputWidth:200},
+				  		{view:"button", value:"Prev Page",        click:prev_page,  inputWidth:200}
+        			]},
+        			{rows:[
+  						{view:"button", value:"Next Page",       click:next_page,  inputWidth:200},
+      					{view:"button", value:"Jump to End",     click:last_page,  inputWidth:200}
+        			]}
+      			]}
+			]
+		});
+		
+
+		function get_page(){
+			webix.message("Page "+ $$("pagerA").config.page);
+		}
+		function next_page(){
+			$$("pagerA").select("next");
+		}
+		function prev_page(){
+			$$("pagerA").select("prev");
+		}		
+		function first_page(){
+			$$("pagerA").select("first");
+		}
+		function last_page(){
+			$$("pagerA").select("last");
+		}
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+		<style>
+			#areaA, #areaB, #areaC, #areaD{
+				margin: 30px;
+				width:700px; height:100px;
+			}
+		</style>
+		<title>Toolbar: Dark Theme</title>
+	</head>
+	<body>
+
+		<div id="areaA"></div>
+		<div id="areaB"></div>
+		<div id="areaC"></div>
+		<div id="areaD"></div>
+
+		<script type="text/javascript" charset="utf-8">
+
+
+			var options = ["Apple", "Banana", "Papaya"];
+
+			webix.ui({
+				container:"areaA", margin:20, paddingX:10,
+				view:"toolbar", css:"webix_dark",
+				cols:[
+					{ view:"button", label:"Prev", type:"prev", width:100, height:20 },
+					{ view:"button", label:"Confirm" , inputWidth:100, align:"right" },
+					{ view:"button", label:"Cancel" , inputWidth:100 },
+					{ view:"button", label:"Next" , type:"next",  width:100 }
+				]
+			});
+
+			webix.ui({
+				container:"areaB", margin:20, paddingX:10,
+				view:"toolbar", css:"webix_dark",
+				cols:[
+					{ view:"checkbox", label:"Check" , width:140 },
+					{ view:"combo", options:options, label:"Select", width:240 },
+					{ view:"radio", options:options }
+				]
+			});	
+
+
+			webix.ui({
+				container:"areaC", margin:20, paddingX:10,
+				view:"toolbar", css:"webix_dark", 
+				cols:[
+					{ view:"segmented", options:["List", "Form", "About"] },
+					{ view:"text", placeholder: "Type here.."},
+					{ view:"counter", width:100 }
+				]
+			});
+
+	
+					
+		</script>
+	</body>
+</html>

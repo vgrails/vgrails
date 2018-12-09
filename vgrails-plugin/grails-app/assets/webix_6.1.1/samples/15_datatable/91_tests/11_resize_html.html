@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Custom sizing</title>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+		<script src="./testdata.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+		<div class='header_comment'>Custom sizing</div>
+		<div class='sample_comment'>The sample shows how to use the resize() function within a custom function to set size for the grid put inside a 'div' container. </div>
+		<hr>
+		<div id="testA" style='width:600px; height:300px; overflow:hidden;'></div>
+		<hr>
+		<div id="testB" style='width:600px; height:300px; overflow:hidden;'></div>
+		<input type="button" id="resize" value="resize" onclick='doResize()'> 
+		<script type="text/javascript" charset="utf-8">
+		function doResize(){
+			grid.define("height", 100);
+			grid.resize();
+
+			document.getElementById('testB').style.height="100px";
+			grid2.adjust();
+		};
+
+		webix.ready(function(){
+			grid = webix.ui({
+				container:"testA",
+				view:"datatable",
+				columns:[{ id:"a" },{ id:"b" },{ id:"c" },{ id:"d" },{ id:"e" }],
+				data:big_test_matrix
+			});
+
+			grid2 = webix.ui({
+				container:"testB",
+				view:"datatable",
+				columns:[{ id:"a" },{ id:"b" },{ id:"c" },{ id:"d" },{ id:"e" }],
+				data:big_test_matrix
+			});
+		});
+		</script>
+	</body>
+</html>

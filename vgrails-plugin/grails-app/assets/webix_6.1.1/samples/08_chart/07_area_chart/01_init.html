@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+	<title>Area Chart: Basic Initialization</title>
+	<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript"></script>
+	<link rel="STYLESHEET" type="text/css" href="../../../codebase/webix.css?v=6.1.1">
+	<script src="../../common/chartdata.js?v=6.1.1"></script>
+<body>
+    <div id="chartDiv" style="width:500px;height:250px;margin:20px"></div>
+	<script>
+        webix.ui({
+            view:"chart",
+            container:"chartDiv",
+            type:"area",
+            value:"#sales#",
+            color:"#36abee",
+            alpha:0.8,
+            xAxis:{
+                template:"'#year#"
+            },
+            yAxis:{
+                start:0,
+                end:100,
+                step:10,
+                template:function(obj){
+                    return (obj%20?"":obj)
+                }
+            },
+            tooltip:{
+                template: "#sales#"
+            },
+            data: dataset
+        });
+	</script>
+</body>
+</html>
+	

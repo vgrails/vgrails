@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Math in datatable</title>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+		
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+	</head>
+	<style>
+	.index .webix_cell{
+		background-color:yellow;
+		text-align:center;
+	}
+	.center .webix_cell{
+		text-align:center;
+	}
+	</style>
+	<body>
+		<div class='header_comment'>Math in datatable</div>
+		<div id="testA" style='width:800px; '></div>
+		<input type='button' value='change' onclick='grid.getItem(1).col1 = 10000; grid.updateItem(1);'>
+		<script type="text/javascript" charset="utf-8">
+
+			var data = [
+//				{ id: 1, col1: "1", col2: "2", col3: "3", col4: "4", col5: "5" }
+			];
+			var len = 10;
+			for (var i = 0; i < len; i++) {
+				var item = {};
+				item.id = i + 1;
+				item.col1 = i*10;
+				item.col2 = i*2;
+				item.col3 = len - i;
+				item.col4 = i+7;
+				item.col5 = (len - i)/2;
+				data.push(item);
+			}
+			
+			data[1].col1 = "=1 + 7";
+			data[2].col1 = "=11 - 42";
+			data[3].col1 = "=7* 3";
+			data[4].col1 = "=24/5";
+			data[5].col1 = "=5/1";
+			data[0].col4 = "=[:0,:2] + [:0,:1]";
+			
+			
+
+
+			grid = webix.ui({
+				container:"testA",
+				view:"datatable",
+				columns:[
+					{ id:"col1",	footer:{ content:"summColumn" }, header:"Column 1",	width:150, editor:"formula"},
+					{ id:"col2",	footer:{ colspan:3, text:""},  header:"Column 2" , width:150, editor:"formula"},
+					{ id:"col3",	header:"Column 3", 	width:150, editor:"formula"},
+					{ id:"col4",	header: "Column 4", width:150, editor:"formula"},
+					{ id:"col5",	
+						footer:{ content:"summColumn" }, 
+						header: "Column 5", width:150, format:webix.Number.format, math: "[$r,:0] + [$r,col2] - [$r,col3]"}
+				],
+				autowidth:true, 
+				autoheight:true,
+				editable: true,
+				math: true,
+				footer:true,
+				data: data
+			});
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Loading from inline datasource</title>
+		<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="../common/samples.css?v=6.1.1">
+	</head>
+	<body>
+		<div class='header_comment'>Loading from json datasource</div>
+		<div id="testA" style='width:300px; height:260px; float:left'></div>
+		
+		<script src="../common/treedata.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+
+		webix.ready(function(){
+
+			tree = webix.ui({
+				container:"testA",
+				view:"tree",
+				select:true,
+
+				template:"{common.icon()} {common.checkbox()} {common.folder()} #value#",
+				
+				threeState:true, 
+				data: smalltreedata
+			});
+
+		});
+
+		</script>
+
+		<input type='button' id="check_item" value='check item' onclick='tree.checkItem(tree.getSelectedId())'>
+		<input type='button' id="uncheck_item" value='uncheck item' onclick='tree.uncheckItem(tree.getSelectedId())'>
+		<br><br>
+		<input type='button' id="add_first_child" value='add first child' onclick='tree.add({ value:"New item"}, 0, tree.getSelectedId())'>
+		<input type='button' id="add_last_child" value='add last child' onclick='tree.add({ value:"New item"}, -1, tree.getSelectedId())'>
+		<input type='button' id="add_sibling" value='add sibling' onclick='var sel = tree.getSelectedId(); var parent = tree.getParentView(sel); tree.add({ value:"New item"}, tree.data.getBranchIndex(parent, sel), parent)'>
+		<br>
+		<input type='button' id="delete" value='delete selected' onclick='tree.remove(tree.getSelectedId())'>
+		<input type='button' id="delete_child" value='delete child' onclick='tree.remove(tree.data.getFirstChildId(tree.getSelectedId()))'>
+		<br>
+		<input type='button' id="open_selected" value='open selected' onclick='tree.open(tree.getSelectedId())'>
+		<input type='button' id="close_selected" value='close selected' onclick='tree.close(tree.getSelectedId())'>
+		<br>
+		<input type='button' id="open_all" value='open all' onclick='tree.openAll()'>
+		<input type='button' id="close_all" value='close all' onclick='tree.closeAll()'>
+		
+	</body>
+</html>

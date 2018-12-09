@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Icons</title>
+		<link rel="stylesheet" href="../../codebase/webix.css?v=6.1.1" type="text/css"   charset="utf-8">
+		<script src="../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.css?v=6.1.1" type="text/css" charset="utf-8">
+		<script type="text/javascript" src="../common/testdata.js?v=6.1.1"></script>
+		<script type="text/javascript" src="../common/treedata.js?v=6.1.1"></script>
+	</head>
+	<body>
+		<script type="text/javascript" charset="utf-8">
+			var toolbar = { view:"toolbar", elements:[
+				{ view:"label", label:"Toolbar" },
+				{ gravity:2 },
+				{ view:"button", type:"icon", icon:"mdi mdi-email", label:"Mail", width:80 },
+				{ view:"button", type:"icon", icon:"mdi mdi-account", label:"Users", width:80 },
+				{ view:"button", type:"icon", icon:"mdi mdi-cogs", label:"Cogs", width:80 },
+				{},
+				{ view:"icon", icon:"mdi mdi-email"},{ view:"icon", icon:"mdi mdi-account"},{ view:"icon", icon:"mdi mdi-cogs"}
+			]};
+			var sections = { multi:false, rows:[
+				{ header:"<span class='webix_icon mdi mdi-email'></span>Mail", body:"mail data" },
+				{ header:"<span class='webix_icon mdi mdi-account'></span>Contacts", body:"contacts data" },
+				{ header:"<span class='webix_icon mdi mdi-cogs'></span>Filter", body:"filters data" }
+			]};
+			var list = {
+				view:"list", select:true, 
+				template:"<span class='webix_icon mdi mdi-#icon#'></span> #name# ",
+				data:[ { icon:"email", name:"Mail"}, { icon:"account", name:"Users"}, {icon:"cogs", name:"cogs" }]
+			}
+			var form = {
+				view:"form", rows:[
+					{ view:"datepicker", label:"Date" },
+					{ view:"combo", label:"Combo", options:["Apple", "Banana", "Melon"] },
+					{ view:"richselect", label:"Select", options:["Apple", "Banana", "Melon"] },
+					{ view:"colorpicker", label:"Color" }
+				]
+			}
+			var offers = [
+				{id:1, direction:"<span class='webix_strong'>Tallin</span> EE - <span class='webix_strong'>Berlin</span> Tegel DE", date:new Date(2014,7,25), price:"450", save:"45", places:21},
+				{id:2, direction:"<span class='webix_strong'>Moscow</span> Vnukovo RU - <span class='webix_strong'>Kiev</span> Borispol UA", date: new Date(2014,7,28), price:"160", save:"65", places:5},
+				{id:3, direction:"<span class='webix_strong'>Riga</span> International LV - <span class='webix_strong'>Warsaw</span> Modlin", date: new Date(2014,7,16), price:"220", save:"110", places:2},
+				{id:4, direction:"<span class='webix_strong'>Vilnius</span> LT - <span class='webix_strong'>Kiev</span> Zhulhany UA", date: new Date(2014,8,1), price:"140", save:"40", places:35},
+				{id:5, direction:"<span class='webix_strong'>Minsk</span> International 2 BY- <span class='webix_strong'>Berlin</span> Schoenefeld DE", date: new Date(2014,8,6), price:"378", save:"35", places:25},
+				{id:6, direction:"<span class='webix_strong'>St. Petersburg</span> Pulkovo - <span class='webix_strong'>Tallin</span> Estonia", date: new Date(2014,7,31), price:"90", save:"82", places:11},
+				{id:7, direction:"<span class='webix_strong'>Kiev</span> Zhulhany UA - <span class='webix_strong'>Moscow</span> Vnukovo RU", date: new Date(2014,8,15), price:"220", save:"30", places:41},
+				{id:8, direction:"<span class='webix_strong'>Moscow</span> Sheremetyevo RU - <span class='webix_strong'>Vilnius</span> LT", date: new Date(2014,8,11), price:"321", save:"44", places:32},
+				{id:9, direction:"<span class='webix_strong'>Warsaw</span> PL - <span class='webix_strong'>Minsk</span> International 2 BY", date: new Date(2014,8,5), price:"256", save:"32", places:55},
+				{id:10, direction:"<span class='webix_strong'>Prague</span> CZ - <span class='webix_strong'>St. Petersburg</span> Pulkovo", date: new Date(2014,7,30), price:"311", save:"63", places:15},
+				{id:11, direction:"<span class='webix_strong'>Tallin</span> EE - <span class='webix_strong'>Berlin</span> Tegel DE", date:new Date(2014,8,25), price:"450", save:"45", places:35},
+				{id:12, direction:"<span class='webix_strong'>Moscow</span> Vnukovo RU - <span class='webix_strong'>Kiev</span> Borispol UA", date: new Date(2014,8,28), price:"160", save:"65", places:20},
+				{id:13, direction:"<span class='webix_strong'>Riga</span> International LV - <span class='webix_strong'>Warsaw</span> Modlin", date: new Date(2014,8,16), price:"220", save:"110", places:22},
+				{id:14, direction:"<span class='webix_strong'>Vilnius</span> LT - <span class='webix_strong'>Kiev</span> Zhulhany UA", date: new Date(2014,9,1), price:"140", save:"40", places:20},
+				{id:15, direction:"<span class='webix_strong'>Minsk</span> International 2 BY- <span class='webix_strong'>Berlin</span> Schoenefeld DE", date: new Date(2014,9,6), price:"378", save:"35", places:11},
+				{id:16, direction:"<span class='webix_strong'>St. Petersburg</span> Pulkovo - <span class='webix_strong'>Tallin</span> Estonia", date: new Date(2014,9,31), price:"90", save:"82", places:21},
+				{id:17, direction:"<span class='webix_strong'>Kiev</span> Zhulhany UA - <span class='webix_strong'>Moscow</span> Vnukovo RU", date: new Date(2014,10,15), price:"220", save:"30", places:53},
+				{id:18, direction:"<span class='webix_strong'>Moscow</span> Sheremetyevo RU - <span class='webix_strong'>Vilnius</span> LT", date: new Date(2014,11,11), price:"321", save:"44", places:42},
+				{id:19, direction:"<span class='webix_strong'>Warsaw</span> PL - <span class='webix_strong'>Minsk</span> International 2 BY", date: new Date(2014,12,5), price:"256", save:"32", places:30},
+				{id:20, direction:"<span class='webix_strong'>Prague</span> CZ - <span class='webix_strong'>St. Petersburg</span> Pulkovo", date: new Date(2014,12,14), price:"311", save:"63", places:2},
+				{id:21, direction:"<span class='webix_strong'>Minsk</span> International 2 BY - <span class='webix_strong'>Berlin</span> Tegel DE", date: new Date(2014,12,20), price:"256", save:"32", places:10},
+				{id:22, direction:"<span class='webix_strong'>Vilnius</span> LT - <span class='webix_strong'>Berlin</span> Tegel DE", date: new Date(2014,12,21), price:"311", save:"63", places:11}
+			];
+			var calendar = {
+				view: "datatable", select:true,
+				columns:[
+					{id:"id", header:"#", width:40},
+					{id:"direction", header:"Direction", fillspace:true},
+					{id:"date", header:"Date", width:150, sort:"date", format:webix.i18n.longDateFormatStr},
+					{id:"price", header:"Price", width:95, sort:"int", format:webix.i18n.priceFormat},
+					{id:"save", header:"You save", width:95, sort:"int", format:webix.i18n.priceFormat},
+					{id:"places", header:"Tickets", width:65, sort:"int"},
+					{id:"book", header:"Booking", css:"webix_el_button", width:100, template:"<a href='javascript:void(0)' class='check_flight'>Book now</a>"}
+				],
+				data:offers,
+				onClick:{
+					"check_flight":function(){
+						return false;
+					}
+				}
+			};
+
+			var tabbar = { rows:[
+				list,
+				form,
+				{ view:"tabbar", type:"bottom", height:38, selected:"account", options:[
+					{ id:"mail",  value:"<span class='webix_icon mdi mdi-email'></span>Mail" },
+					{ id:"users", value:"<span class='webix_icon mdi mdi-account'></span>Users" },
+					{ id:"cogs", 	 value:"<span class='webix_icon mdi mdi-cogs'></span>cog" }
+				]}
+			]};
+			var form = { view:"form", width:320, scroll:false, elements:[
+				{ view:"toolbar", elements:[
+					{ view:"button", type:"icon", icon:"mdi mdi-email", label:"Mail" },
+					{ view:"button", type:"icon", icon:"mdi mdi-account", label:"Users" },
+					{ view:"button", type:"icon", icon:"mdi mdi-cogs", label:"Cogs" }
+				]},
+				{ type:"section", template:"Icon buttons" },
+				{ margin:10, cols:[
+					{ view:"button", type:"iconButton", icon:"mdi mdi-email", label:"Mail", width:75 },
+					{ view:"button", type:"iconButton", icon:"mdi mdi-account", label:"Users", width:85 },
+					{ view:"button", type:"iconButton", icon:"mdi mdi-cogs", label:"Cogs", width:80 }
+				]},
+				{ type:"section", template:"Icon buttons Top" },
+				{ margin:10, height:60, cols:[
+					{ view:"button", type:"iconButtonTop", icon:"mdi mdi-email", label:"Mail" },
+					{ view:"button", type:"iconButtonTop", icon:"mdi mdi-account", label:"Users" },
+					{ view:"button", type:"iconButtonTop", icon:"mdi mdi-cogs", label:"Cogs" }
+				]},
+				{ type:"section", template:"Icons" },
+				{ margin:10, cols:[
+					{}, { view:"icon", icon:"mdi mdi-email"},{ view:"icon", icon:"mdi mdi-account"},{ view:"icon", icon:"mdi mdi-cogs"}
+				]},
+				{},
+				{ view:"toolbar", padding:0, height:60, elements:[
+					{ view:"button", type:"iconTop", icon:"mdi mdi-email", label:"Mail" },
+					{ view:"button", type:"iconTop", icon:"mdi mdi-account", label:"Users" },
+					{ view:"button", type:"iconTop", icon:"mdi mdi-cogs", label:"Cogs" }
+				]}
+			]}; 
+
+			var app = {
+				rows:[ toolbar, {
+					type:"space", cols:[
+						{ type:"wide", rows:[ sections, calendar ] },
+						tabbar,
+						form
+					]
+				}]
+			};
+
+			webix.ui(app);
+			
+		</script>
+	</body>
+</html>
+

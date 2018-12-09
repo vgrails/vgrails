@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../../codebase/webix.css?v=6.1.1" type="text/css" charset="utf-8">
+    <script src="../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.css?v=6.1.1" type="text/css" charset="utf-8">
+    <script src="../common/testdata.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+    
+    <title>Dynamic Layout Rebuilding</title>
+    <style>
+        #testA, #testB{
+            width:400px;height:340px;margin:20px;float:left;
+        }
+    </style>
+</head>
+<body>
+<div style="margin:0px 20px;">
+    <input type="button" value="Rebuild form" width="150" onclick="rebuildForm()"/>
+    <input style="margin-left:340px;" type="button" value="Replace grid" width="150" onclick="replaceGrid()"/>
+</div>
+<div id="testA"></div>
+<div id ="testB"></div>
+<script type="text/javascript" charset="utf-8">
+
+    webix.ui({
+        view:"form",
+        id:'myform',
+        container:"testA",
+        elements:[
+            {view:"text", placeholder:"First Name"},
+            {view:"text", placeholder:"Last Name"},
+            {cols:[
+                {view:"button", value:"Cancel"},
+                {view:"button", value:"Sumbit", type:"form"}
+            ]}
+        ]
+    });
+
+    webix.ui({
+        id:'mylayout',
+        container:"testB",
+        rows:[
+            { view:'toolbar', elements:[
+                {},
+                {view:"icon", width:40, icon:"mdi mdi-home"},
+                {view:"icon", width:40, icon:"mdi mdi-undo"},
+                {view:"icon", width:40, icon:"mdi mdi-redo"}
+            ]},
+            {
+                view:'datatable',
+                id:'mydatatable',
+                scroll:false,
+                autoheight:true,
+                columns:[
+                    {id:"rank", header:"", width:40},
+                    {id:"title", header:"title", fillspace:true},
+                    {id:"year", header:"Year", width:100},
+                    {id:"votes", header:"Votes", width:100}
+                ],
+                data:small_film_set
+            }
+        ]
+    });
+
+    function rebuildForm(){
+        webix.ui([
+            {view:"datepicker", label:"Date"},
+            {view:"colorpicker", label:"Color"},
+            {view:"slider"}
+        ], $$('myform'));
+    }
+
+    function replaceGrid(){
+        webix.ui({
+            view:"dataview",
+            template:"<b>#title#</b><br>#year#",
+            xCount:2,
+            type:{
+                height:83,
+                width:200
+            },
+            data:small_film_set
+        }, $$('mylayout'), $$('mydatatable'));
+    }
+
+</script>
+</body>
+</html>

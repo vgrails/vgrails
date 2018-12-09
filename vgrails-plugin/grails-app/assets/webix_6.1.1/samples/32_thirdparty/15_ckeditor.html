@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../../codebase/webix.css?v=6.1.1" type="text/css"   charset="utf-8">
+		<script src="../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+		
+		<!-- You can get these files from https://github.com/webix-hub/components -->
+		<script src="//cdn.webix.com/components/edge/ckeditor/ckeditor.js?v=6.1.1"></script>
+		<title>CKEditor text editor</title>
+	</head>
+	<body>
+		<script type="text/javascript" charset="utf-8">
+			webix.ui({
+				type:"space", rows:[
+					{ id:'editor', view:"ckeditor"},
+					{ template:"CKEditor editor", type:"header" },
+					{ id:'editor2', view:"ckeditor"}
+				]
+			});
+
+			$$("editor").setValue("CKEditor is a ready-for-use HTML text editor designed to simplify web content creation. It's a WYSIWYG editor that brings common word processor features directly to your web pages. Enhance your website experience with our community maintained editor.");
+			$$("editor").focus();
+
+			$$("editor2").setValue("CKEditor is a ready-for-use HTML text editor designed to simplify web content creation. It's a WYSIWYG editor that brings common word processor features directly to your web pages. Enhance your website experience with our community maintained editor.");
+		</script>
+	</body>
+
+	
+</html>

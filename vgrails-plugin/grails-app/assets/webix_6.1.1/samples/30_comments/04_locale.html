@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+	<title>Comments:: Localization</title>
+	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+
+	<script type="text/javascript" src="../../codebase/webix.js?v=6.1.1"></script>
+	<link rel="stylesheet" type="text/css" href="../../codebase/webix.css?v=6.1.1">
+
+	<script src="./common/data.js?v=6.1.1" type="text/javascript"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		webix.ready(function(){
+			
+			webix.i18n.setLocale("de-DE");
+
+			webix.ui({
+				view:"comments",
+				width: 450,
+				currentUser:4,
+				data: commentsData,
+				users: usersData
+			});
+		});
+	</script>
+</body>
+</html>

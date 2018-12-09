@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../../../codebase/webix.css?v=6.1.1" type="text/css"   charset="utf-8">
+	<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+	<title>RangeSlider</title>
+</head>
+<body>
+<script type="text/javascript" charset="utf-8">
+
+	webix.ui({
+		width:550,
+		view:"form",
+		elements:[
+			{ type:"section", template:"No title"},
+			{ view:"rangeslider",  label:"Level A", value: "50,70", on:{
+				onChange: function(value){
+					webix.message("Level A "+value[0]+" - "+value[1]);
+				}
+			}, moveTitle:false},
+			{ view:"rangeslider", type:"alt", label:"Level A (alt)", value: "10,40", on:{
+				onChange: function(value){
+					webix.message("Level B (alt) "+value[0]+" - "+value[1]);
+				}
+			}, moveTitle:false},
+
+			{ type:"section", template:"Fixed title"},
+			{ view:"rangeslider", label:"Level B", value:[0,50], title:function(obj){
+				var v = obj.value;
+				return (v[0]==v[1]?v[0]: v[0]+" - "+v[1]);
+			}, moveTitle:false},
+			{ view:"rangeslider", type:"alt", label:"Level B (alt)", value:[55,83], title:function(obj){
+				var v = obj.value;
+				return "Value: "+(v[0]==v[1]?v[0]: v[0]+" - "+v[1]);
+			}, moveTitle:false},
+
+			{ type:"section", template:"Moving titles"},
+			{ view:"rangeslider", label:"Level D", value:"15,70", title: webix.template("#value#")},
+			{ view:"rangeslider", label:"Level D (alt)", value:"10,60", title: webix.template("Value #value#"), type:"alt"}
+		],
+		elementsConfig:{
+			labelWidth:100
+		}
+	});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../../codebase/webix.css?v=6.1.1" type="text/css"   charset="utf-8">
+		<script src="../../codebase/webix.js?v=6.1.1" type="text/javascript" charset="utf-8"></script>
+		
+		<link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.css?v=6.1.1" type="text/css" charset="utf-8">
+		<style>
+			#areaA, #areaB, #areaC, #areaD, #areaE{
+				margin: 30px;
+				width:700px; height:100px;
+			}
+		</style>
+		<title>Buttons: Type 'icon' with Badges</title>
+	</head>
+	<body>
+
+		<div id="areaA"></div>
+		<div id="areaB"></div>
+		<div id="areaC"></div>
+		<div id="areaD"></div>
+		<div id="areaE"></div>
+
+		<script type="text/javascript" charset="utf-8">
+
+			webix.ui({
+				container:"areaA",
+				view:"toolbar",
+				margin:50,
+				cols:[
+					{ gravity: 3},
+					{ view:"button", autowidth:true, badge:1, type:"icon", icon:"mdi mdi-comment", label:"Mail" },
+					{ view:"button", autowidth:true, badge:12, type:"icon", icon:"mdi mdi-upload", label:"Upload" },
+					{ view:"button", autowidth:true, badge:24, type:"icon", icon:"mdi mdi-download", label:"Download" }
+				]
+			});
+
+			webix.ui({
+				container:"areaB",
+				view:"toolbar", 
+				margin:20,
+				cols:[
+					{ gravity: 3},
+					{ view:"button", autowidth:true, badge:1, type:"iconButton", icon:"mdi mdi-comment", label:"Mail" },
+					{ view:"button", autowidth:true, badge:12, type:"iconButton", icon:"mdi mdi-upload", label:"Upload" },
+					{ view:"button", autowidth:true, badge:24, type:"iconButton", icon:"mdi mdi-download", label:"Download" }
+				]
+			});	
+
+
+			webix.ui({
+				container:"areaC",
+				view:"toolbar",
+				cols:[
+					{gravity: 4},
+					{ view:"icon", badge:1,  icon:"mdi mdi-comment"},
+					{ view:"icon", badge:12, icon:"mdi mdi-upload"},
+					{ view:"icon", badge:24, icon:"mdi mdi-download"}
+				]
+			});	
+
+
+
+			webix.ui({
+				container:"areaD",
+				view:"toolbar", height:66,
+				cols:[
+					{ gravity: 4},
+					{ view:"button", width:100, badge:1, type:"iconTop", icon:"mdi mdi-comment", label:"Mail" },
+					{ view:"button", width:100, badge:12, type:"iconTop", icon:"mdi mdi-upload", label:"Upload" },
+					{ view:"button", width:100, badge:24, type:"iconTop", icon:"mdi mdi-download", label:"Download" }
+				]
+			});
+
+			webix.ui({
+				container:"areaE",
+				view:"toolbar", height:66,
+				cols:[
+					{ gravity: 4},
+					{ view:"button", width:100,  badge:1, type:"iconButtonTop", icon:"mdi mdi-comment", label:"Mail" },
+					{ view:"button", width:120,  badge:12, type:"iconButtonTop", icon:"mdi mdi-upload", label:"Upload" },
+					{ view:"button", width:140,  badge:24, type:"iconButtonTop", icon:"mdi mdi-download", label:"Download" }
+				]
+			});	
+
+			
+	
+					
+		</script>
+	</body>
+</html>

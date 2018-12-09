@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+	<title>Comments:: Send actions</title>
+	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+
+	<script type="text/javascript" src="../../codebase/webix.js?v=6.1.1"></script>
+	<link rel="stylesheet" type="text/css" href="../../codebase/webix.css?v=6.1.1">
+
+	<script src="./common/data.js?v=6.1.1" type="text/javascript"></script>
+</head>
+<body>
+	<script type="text/javascript">
+
+		webix.ready(function(){
+			webix.ui({
+				cols:[
+					{ rows:[
+						{ type:"header", template:"Click 'Send' or press 'Shift+Enter' to send"},
+						{
+							view:"comments",
+							currentUser:4,
+							data: commentsData,
+							users: usersData
+						}
+					]},
+					{ rows:[
+						{ type:"header", template:"Click 'Send' or press 'Enter' to send, 'Shift+Enter' for new line"},
+						{
+							view:"comments",
+							currentUser:4,
+							data: commentsData,
+							users: usersData,
+							sendAction:"enter"
+						}
+					]}
+				]
+			});
+		});
+	</script>
+</body>
+</html>

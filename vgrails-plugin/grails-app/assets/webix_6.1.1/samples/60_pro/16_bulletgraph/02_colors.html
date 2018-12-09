@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+	<title>Bullet Graph - Color by value</title>
+	<script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript"></script>
+	<link rel="STYLESHEET" type="text/css" href="../../../codebase/webix.css?v=6.1.1">
+	<style type="text/css">
+		.webix_bullet_graph_svg {
+			margin: 10px;
+		}
+	</style>
+	<body>
+		<script>
+		function warningLevels(v){
+			if (v < 30) return "red";
+			if (v < 60) return "orange";
+			return "green";
+		}
+
+		var bullet1 = {
+			view:"bullet", id:"b1",
+			value:40, 
+			bands:[
+			  { value:120, color:"#b4e5fb"},
+			  { value:80, color:"#55c2f3"},
+			  { value:60, color:"#1997dc"},
+			],
+			label:"2015 YTD", stroke:16,
+			color: warningLevels,
+			placeholder:"estimated"
+		};
+
+		var bullet2 = {
+			view:"bullet", id:"b2",
+			value:88,  smoothFlow:false,
+			bands:[
+			  { value:120, color:"#ffffff"},
+			],
+			label:"2016 YTD", stroke:32,
+			color: warningLevels,
+			placeholder:"estimated"
+		};	
+
+		webix.ui({
+			type:"wide", rows:[
+				bullet1,
+				bullet2,
+				{}
+			]
+		});
+
+		setInterval(function(){
+			var value = Math.floor(Math.random()*100);
+			$$("b1").setValue(value);
+			$$("b2").setValue(100-value);
+		}, 3000)
+
+		</script>
+	</body>
+</html>

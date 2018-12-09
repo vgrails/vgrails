@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+    <title>Type tiles</title>
+    <script src="../../../codebase/webix.js?v=6.1.1" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="../../../codebase/webix.css?v=6.1.1">
+    <script src="../../common/testdata.js?v=6.1.1"></script>
+<body>
+<div id="data" style="width:540px;height:270px;margin:20px"></div>
+<script>
+    webix.ui({
+        view:"dataview",
+        container:"data",
+        select:true,
+        drag: true,
+        xCount:2,
+        yCount:4,
+        type:{
+            width: "auto",
+            height:"auto",
+            type: "tiles",
+            template:"<div class='webix_strong'>#title#</div> Year: #year#, rank: #rank#"
+        },
+        data:big_film_set
+    });
+</script>
+
+</body>
+</html>

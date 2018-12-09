@@ -1,0 +1,31 @@
+const locale = {
+	or: "o",
+	and: "e",
+	delete_rule: "Elimina la regola",
+	add_rule: "Aggiungi regola",
+	add_group: "Aggiungere gruppo",
+	less: "meno",
+	less_or_equal: "minore o uguale",
+	greater: "maggiore",
+	greater_or_equal: "maggiore o uguale",
+	between: "tra",
+	not_between: "non tra",
+	begins_with: "inizia con",
+	not_begins_with: "non inizia con",
+	contains: "contiene",
+	not_contains: "non contiene",
+	ends_with: "finisce con",
+	not_ends_with: "non termina con",
+	is_empty: "è vuoto",
+	is_not_empty: "non è vuota",
+	equal: "uguale",
+	not_equal: "non uguale",
+	is_null: "è nullo",
+	is_not_null: "non è nullo",
+	default_option: "---",
+	cancel: "Annulla",
+	filter: "Filtro",
+	sort: "Ordinare"
+};
+
+export default locale;

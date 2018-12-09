@@ -1,0 +1,31 @@
+const locale = {
+	or: "要么",
+	and: "和",
+	delete_rule: "删除规则",
+	add_rule: "添加规则",
+	add_group: "添加组",
+	less: "减",
+	less_or_equal: "少于或等于",
+	greater: "更大",
+	greater_or_equal: "大于或等于",
+	between: "之间",
+	not_between: "不在之间",
+	begins_with: "开始于",
+	not_begins_with: "不开始",
+	contains: "包含",
+	not_contains: "不包含",
+	ends_with: "结束",
+	not_ends_with: "不是以",
+	is_empty: "是空的",
+	is_not_empty: "不是空的",
+	equal: "等于",
+	not_equal: "不平等",
+	is_null: "为空",
+	is_not_null: "不为空",
+	default_option: "---",
+	cancel: "取消",
+	filter: "过滤",
+	sort: "分类"
+};
+
+export default locale;
