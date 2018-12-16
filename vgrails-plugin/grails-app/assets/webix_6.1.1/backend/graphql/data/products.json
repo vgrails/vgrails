@@ -1,7 +1,0 @@
-[
-    {"_id":"1", "name": "Spreadsheet", "docslink": "https://docs.webix.com/spreadsheet"},
-    {"_id":"2", "name": "Kanban", "docslink": "https://docs.webix.com/kanban"},
-    {"_id":"3", "name": "File Manager", "docslink": "https://docs.webix.com/filemanager"},
-    {"_id":"4", "name": "Scheduler", "docslink": "https://docs.webix.com/scheduler"},
-    {"_id":"5", "name": "Pivot", "docslink": "https://docs.webix.com/pivot"}
-]

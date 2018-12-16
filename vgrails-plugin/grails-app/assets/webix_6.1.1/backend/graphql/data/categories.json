@@ -1,9 +1,0 @@
-[
-    { "_id":"1", "name":"Data Widgets", "parent":"0" },
-    { "_id":"2", "name":"Layout Widgets", "parent":"0" },
-    { "name":"Data Table", "parent":"1" },
-    { "name":"List", "parent":"1" },
-    { "name":"Tree", "parent":"1" },
-    { "name":"Tabview", "parent":"2" },
-    { "name":"Dashboard", "parent":"2" }
-]

@@ -1,7 +1,0 @@
-[
-	{ "_id":1, "value":"Corvo Attano", "image": "./common/imgs/corvo.jpg" },
-	{ "_id":2, "value":"Daisy Fitzroy", "image": "./common/imgs/daisy.jpg" },
-	{ "_id":3, "value":"Glenn Crake", "image": "./common/imgs/glenn.jpg"  },
-	{ "_id":4, "value":"Me", "image": "./common/imgs/tomek.jpg"  },
-	{ "_id":5, "value":"Leia Organa", "image": "./common/imgs/leia.jpg"  }
-]

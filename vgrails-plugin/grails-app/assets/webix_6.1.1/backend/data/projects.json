@@ -1,8 +1,0 @@
-[
-    { "_id":1, "has_kids":1, "value":"Layout branch","state":"in progress","hours":120, "parent":0 },
-    { "_id":3, "has_kids":0, "value":"Accordion","state":"finalized","hours":42, "parent":1 },
-    { "_id":4, "has_kids":0, "value":"Multiview","state":"finalized","hours":34, "parent":1 },
-    { "_id":2, "has_kids":1, "value":"Data branch","state":"in progress","hours":150, "parent":0 },
-    { "_id":5, "has_kids":0, "value":"List","state":"finalized","hours":50, "parent":2 },
-    { "_id":6, "has_kids":0, "value":"Calendar","state":"planing","hours":0, "parent":0 }
-]
