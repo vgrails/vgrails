@@ -3,7 +3,7 @@ var menu_data = [
 		{ id: "dashboard1", value: "Dashboard 1"},
 		{ id: "dashboard2", value: "Dashboard 2"}
 	]},
-	{id: "layouts", icon: "mdi mdi-view-column", value:"Layouts", data:[
+	{id: "layout", icon: "mdi mdi-view-column", value:"Layouts", data:[
 		{ id: "accordions", value: "Accordions"},
 		{ id: "portlets", value: "Portlets"}
 	]},
@@ -34,7 +34,7 @@ var menu_data = [
 
 var menu_data_multi  = [
     { id: "structure", icon: "mdi mdi-view-column", value:"Structuring", data:[
-        { id: "layouts", icon:"mdi mdi-circle", value:"Layouts", data:[
+        { id: "layout", icon:"mdi mdi-circle", value:"Layouts", data:[
         	{ id: "layout", icon:"mdi mdi-circle-outline", value: "Layout"},
             { id: "flexlayout", icon:"mdi mdi-circle-outline", value: "Flex Layout"},
             { id:"strict", icon:"mdi mdi-circle-outline", value:"Precise Positioning", data:[

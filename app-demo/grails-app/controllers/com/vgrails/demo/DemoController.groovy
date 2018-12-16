@@ -7,6 +7,20 @@ class DemoController {
     def index() {
     }
 
+    def layout() {
+    }
+
+    def test() {
+        render(
+                template: "/layout/leftUpDown",
+                model:[
+                        left: "leftGrid", leftModel: "organization",
+                        up:"upGrid", upModel: "organization",
+                        down: "downGrid", downModel: "organization"
+                ]
+        )
+    }
+
     def list() {
         println "method: ${request.method}"
         println params
@@ -19,12 +33,11 @@ class DemoController {
         for(int i=0;i<numberOfRecords;i++){
             Map<String, String> data = [
                     id: i+1,
-                    time: "00:11:${((i%60) + 100).toString()[1..-1]}",
-                    action: ["购买", "出售", "击伤", "击杀"][i%4],
-                    target: ["杨颖", "杨幂", "疏影", "亦菲"][i%4],
+                    name: "名称${i}",
+                    province: "省份${i}",
+                    city: "城市${i}",
+                    area: "地区${i}"
             ]
-
-            data['desc'] = "${data['id']}${data['action']}${data['target']}"
 
             datas.add(data)
         }
@@ -49,6 +62,8 @@ class DemoController {
                 pos: start,
                 total_count: datas.size()
         ]
+
+        println "output:${output}"
 
         render (output as JSON)
     }

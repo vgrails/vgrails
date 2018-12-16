@@ -30,3 +30,9 @@ webix.proxy.gridProxy = {
             webix.ajax().bind(view).get(this.source, params, callback);
     }
 };
+
+webix.i18n.setLocale("zh-CHS");
+
+pagerHeight = 31;
+gridHeaderHeight = 42;
+rowHeight = 36;
