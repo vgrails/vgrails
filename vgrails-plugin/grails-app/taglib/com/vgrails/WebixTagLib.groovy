@@ -25,7 +25,12 @@ class WebixTagLib {
 
         String template = """
 <meta charset="UTF-8">
-${asset.stylesheet(src: "codebase/webix${min}.css")}${asset.stylesheet(src: "codebase/skins/material.css")}${asset.stylesheet(src: "css/materialdesignicons.css")}${asset.javascript(src: "codebase/webix${min}.js")}${asset.javascript(src: "webix-locales/zh-CHS.js")}${asset.javascript(src: "codebase/proxy.js")}
+${asset.stylesheet(src: "webix/codebase/webix${min}.css")}
+${asset.stylesheet(src: "webix/codebase/skins/material.css")}
+${asset.stylesheet(src: "css/materialdesignicons.css")}
+${asset.javascript(src: "webix/codebase/webix${min}.js")}
+${asset.javascript(src: "locales/zh-CHS.js")}
+${asset.javascript(src: "javascripts/proxy.js")}
 ${debug}
 """.trim()
         out << template
