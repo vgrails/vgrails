@@ -47,6 +47,10 @@ ${debug}
 
         if(component == 'grid') {
             out << """{template: "<div id='${id}_grid'></div><div id='${id}_pager'></div>" ${flex},id: "${id}"}"""
+        }else if(component == 'toolbar') {
+            out << """{template: "<div id='${id}'></div>", height: 48}"""
+        }else if(component == 'sidebar') {
+            out << """{template: "<div id='${id}'></div>", width: 58}"""
         }else{
             out << """{template: "<div id='${id}'></div>" ${flex}}"""
         }
@@ -55,16 +59,13 @@ ${debug}
     def containerSize = { attrs, body ->
         String id=attrs['id']
 
-        out << """${id}_width = webix.\$\$("${id}").\$width; ${id}_height = webix.\$\$("${id}").\$height;"""
+        out << """${id}_width = webix.\$\$("${id}").\$width-7; ${id}_height = webix.\$\$("${id}").\$height;"""
     }
 
     def gridColumns = { attrs, body ->
         String model=attrs['model']
 
         MetaDomain domain = MetaService.GetModel(model)
-
-        println MetaService.GetModel("organization").fields
-        println MetaService.GetModel("Organization")
         out << """columns:[\n"""
         for(MetaField f in domain?.fields){
 
@@ -112,38 +113,26 @@ ${debug}
         out << template
     }
 
+    //TODO: 菜单需要从服务端或配置加载
     def sidebar = { attrs, body ->
+        String id = attrs['id']
+
         String template = """
-          { 
+        var ${id}= webix.ui({
+            container: "${id}",
             view: "sidebar",
+            css:"webix_dark",
             collapsed: true,
             data: [
 ${m.sidebarGroup([id:"student", value:"学生"])},
-${m.sidebarGroup([id:"teacher", value:"老师"])},
-${m.sidebarGroup([id:"course", value:"课程"])},
-${m.sidebarGroup([id:"classroom", value:"教师"])},
-${m.sidebarGroup([id:"playground", value:"操场"])},
-${m.sidebarGroup([id:"book", value:"图书"])},
-${m.sidebarGroup([id:"book1", value:"图书1"])},
-${m.sidebarGroup([id:"book2", value:"图书2"])},
-${m.sidebarGroup([id:"book3", value:"图书3"])},
-${m.sidebarGroup([id:"book4", value:"图书4"])},
-${m.sidebarGroup([id:"book5", value:"图书5"])},
-${m.sidebarGroup([id:"book6", value:"图书6"])},
-${m.sidebarGroup([id:"book7", value:"图书7"])},
-${m.sidebarGroup([id:"book8", value:"图书8"])},
-${m.sidebarGroup([id:"book9", value:"图书9"])},
-{},
-${m.sidebarGroup([id:"book10", value:"图书10"])},
-${m.sidebarGroup([id:"book11", value:"图书11"])},
-${m.sidebarGroup([id:"book12", value:"图书12"])}
+${m.sidebarGroup([id:"teacher", value:"老师"])}
             ],
             on:{
                 onAfterSelect: function(id){
                     webix.message("Selected: "+this.getItem(id).value+"("+id+")");
                 }
             }
-          }
+          });
         """
 
         out<<template
@@ -155,13 +144,11 @@ ${m.sidebarGroup([id:"book12", value:"图书12"])}
         String value = attrs["value"]
 
         String template = """
-    {id: "${id}", icon: "mdi mdi-view-dashboard", value: "${value}",  data:[
+    {id: "${id}", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}",  data:[
         { id: "${id}1", value: "${value}1"},
-        { id: "${id}2", value: "${value}2"},
-        { id: "${id}3", value: "${value}3"},
-        { id: "${id}4", value: "${value}4"},
-        { id: "${id}5", value: "${value}5"}
-  ]}"""
+        { id: "${id}2", value: "${value}2"}
+    ]}
+  """
 
         out << template
     }
@@ -219,6 +206,33 @@ ${m.sidebarGroup([id:"book12", value:"图书12"])}
     });
     ${refresh}
     """.trim()
+
+        out << template
+    }
+
+    //TODO: 按钮需要从服务端或配置加载
+    def toolbar = { attrs, body->
+        String id = attrs["id"]
+
+        String template = """
+    var ${id}=webix.ui({
+        container:"${id}",
+        view:"toolbar",
+        css:"webix_dark",
+        height:44,
+        cols: [
+            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
+            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
+            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
+            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
+            { },
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+        ]
+    });""".trim()
 
         out << template
     }
