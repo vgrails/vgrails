@@ -21,6 +21,9 @@ class VgHelper {
      * @param format
      * @return
      */
+
+    static Formatter formatter =new Formatter()
+
     static VgReply ConvertParameter(MetaDomain metaDomain, String propertyName, String value){
 
         if(metaDomain == null){
@@ -132,5 +135,22 @@ class VgHelper {
         }
 
         return new VgReply()
+    }
+
+    static Map<String, String> formatedCache=[:]
+    static synchronized String FormatOutput(String input){
+        String output = formatedCache[input]
+        if(output==null) {
+            output = ""
+            input.eachLine { String line ->
+                if(line && line.trim().size() > 0) {
+                    output += "${line}\n"
+                }
+            }
+
+            formatedCache[input]=output
+        }
+
+        return output
     }
 }

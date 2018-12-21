@@ -6,10 +6,6 @@
 </head>
 <body>
 <script type="application/javascript">
-
-    function buttons(size){
-        return  null;
-    }
 webix.ready(function(){
     webix.ui({
         type: "clean", rows:[
@@ -18,6 +14,7 @@ webix.ready(function(){
                 cols:[
                     <m:container id="sidebar" component="sidebar"/>,
                     <m:container id="grid" component="grid"/>,
+
                 ]
             }
         ]

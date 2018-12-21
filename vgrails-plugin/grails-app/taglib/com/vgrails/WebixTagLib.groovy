@@ -3,6 +3,7 @@ package com.vgrails
 import com.vgrails.model.MetaDomain
 import com.vgrails.model.MetaField
 import com.vgrails.model.MetaService
+import com.vgrails.utility.VgHelper
 import grails.util.Environment
 
 class WebixTagLib {
@@ -14,26 +15,26 @@ class WebixTagLib {
         String min = ""
         String debug = ""
 
-        if(Environment.DEVELOPMENT != Environment.getCurrentEnvironment()){
+        if(Environment.DEVELOPMENT == Environment.getCurrentEnvironment()){
             min = ".min"
             debug = """
-<script type="text/javascript">
-    webix.debug({events: true, size:true});
-</script>
-""".trim()
+    <script type="text/javascript">
+        webix.debug({events: true, size:true});
+    </script>"""
         }
 
         String template = """
-<meta charset="UTF-8">
-${asset.stylesheet(src: "webix/codebase/webix${min}.css")}
-${asset.stylesheet(src: "webix/codebase/skins/material.css")}
-${asset.stylesheet(src: "css/materialdesignicons.css")}
-${asset.javascript(src: "webix/codebase/webix${min}.js")}
-${asset.javascript(src: "locales/zh-CHS.js")}
-${asset.javascript(src: "javascripts/proxy.js")}
-${debug}
-""".trim()
-        out << template
+    <meta charset="UTF-8">
+    ${asset.stylesheet(src: "webix/codebase/webix${min}.css")}
+    ${asset.stylesheet(src: "webix/codebase/skins/material.css")}
+    ${asset.stylesheet(src: "css/materialdesignicons.css")}
+    ${asset.javascript(src: "webix/codebase/webix${min}.js")}
+    ${asset.javascript(src: "locales/zh-CHS.js")}
+    ${asset.javascript(src: "javascripts/proxy.js")}
+    ${debug}""".trim()
+
+
+        out << VgHelper.FormatOutput(template)
     }
 
     def container = { attrs, body ->
@@ -122,6 +123,7 @@ ${debug}
             container: "${id}",
             view: "sidebar",
             css:"webix_dark",
+            height: webix.\$\$("${id}").\$height-2,
             collapsed: true,
             data: [
 ${m.sidebarGroup([id:"student", value:"学生"])},
@@ -145,8 +147,8 @@ ${m.sidebarGroup([id:"teacher", value:"老师"])}
 
         String template = """
     {id: "${id}", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}",  data:[
-        { id: "${id}1", value: "${value}1"},
-        { id: "${id}2", value: "${value}2"}
+        { id: "${id}1", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}1"},
+        { id: "${id}2", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}2"}
     ]}
   """
 
