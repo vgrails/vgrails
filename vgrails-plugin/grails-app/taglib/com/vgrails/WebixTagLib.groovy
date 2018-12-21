@@ -3,7 +3,8 @@ package com.vgrails
 import com.vgrails.model.MetaDomain
 import com.vgrails.model.MetaField
 import com.vgrails.model.MetaService
-import com.vgrails.utility.VgHelper
+import com.vgrails.utility.FrontHelper
+import grails.converters.JSON
 import grails.util.Environment
 
 class WebixTagLib {
@@ -34,7 +35,7 @@ class WebixTagLib {
     ${debug}""".trim()
 
 
-        out << VgHelper.FormatOutput(template)
+        out << FrontHelper.FormatOutput(template)
     }
 
     def container = { attrs, body ->
@@ -237,5 +238,48 @@ ${m.sidebarGroup([id:"teacher", value:"老师"])}
     });""".trim()
 
         out << template
+    }
+
+    def accordion = {attrs, body ->
+
+        String template = """
+{
+view : "accordion", type : "clean",
+rows : [
+{ header : "Babylon 5", body : "Sheridan<br>Delenn<br>Garibaldi<br>G'Kar<br>Londo" },
+{ header : "Star Trek", body : "Kirk<br>Sisko<br>Archer<br>Picard<br>Janeway", collapsed : true },
+{ header : "Stargate SG-1", body : "O'Neill<br>Danial<br>Carter<br>Teal'c", collapsed : true }
+]
+}""".trim()
+        out << template
+    }
+
+//webix.ui({
+//    "type": "clean", "rows":[
+//            {template: "<div id='toolbar'></div>", height: 48},
+//            {
+//                cols:[
+//                        {template: "<div id='sidebar'></div>", width: 58},
+//                        {template: "<div id='grid_grid'></div><div id='grid_pager'></div>" ,id: "grid"},
+//                        {
+//                            view : "accordion", type : "clean",
+//                            rows : [
+//                                    { header : "Babylon 5", body:{rows:[{template: "<div id='chart1'></div>" },
+//                                                                        {template: "<div id='chart2'></div>" }]} },
+//                                    { header : "Star Trek", body : "Kirk<br>Sisko<br>Archer<br>Picard<br>Janeway", collapsed : true },
+//                                    { header : "Stargate SG-1", body : "O'Neill<br>Danial<br>Carter<br>Teal'c", collapsed : true }
+//                            ]
+//                        }
+//                ]
+//            }
+//    ]
+//});
+    def layout = { attrs, body->
+
+        Map layout = FrontHelper.Layout(attrs.layout)
+
+        println layout
+
+        out << "webix.ui(${layout as JSON});"
     }
 }

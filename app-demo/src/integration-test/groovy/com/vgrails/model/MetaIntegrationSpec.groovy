@@ -1,7 +1,7 @@
 package com.vgrails.model
 
 import com.vgrails.utility.ParallelRunner
-import com.vgrails.utility.VgHelper
+import com.vgrails.utility.FrontHelper
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 import org.springframework.beans.factory.annotation.Value
@@ -82,7 +82,7 @@ class MetaIntegrationSpec extends Specification {
 
         expect:
 
-        VgReply reply = VgHelper.ConvertParameter(MetaService.GetModel(domain), propertyName, value)
+        VgReply reply = FrontHelper.ConvertParameter(MetaService.GetModel(domain), propertyName, value)
 
         reply.code == code
         reply.params["value"] == result
@@ -153,7 +153,7 @@ class MetaIntegrationSpec extends Specification {
 
         expect:
 
-        VgReply reply = VgHelper.CheckProperty(MetaService.GetModel(domain), propertyName, value)
+        VgReply reply = FrontHelper.CheckProperty(MetaService.GetModel(domain), propertyName, value)
 
         reply.code == code
 
