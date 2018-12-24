@@ -155,26 +155,6 @@ class FrontHelper {
         return output
     }
 
-//    def container = { attrs, body ->
-//        String id=attrs['id']
-//        String component=attrs['component']
-//        String flex=""
-//
-//        if(attrs['flex']!=null){
-//            flex = " ,gravity:${attrs['flex']}"
-//        }
-//
-//        if(component == 'grid') {
-//            out << """{template: "<div id='${id}_grid'></div><div id='${id}_pager'></div>" ${flex},id: "${id}"}"""
-//        }else if(component == 'toolbar') {
-//            out << """{template: "<div id='${id}'></div>", height: 48}"""
-//        }else if(component == 'sidebar') {
-//            out << """{template: "<div id='${id}'></div>", width: 58}"""
-//        }else{
-//            out << """{template: "<div id='${id}'></div>" ${flex}}"""
-//        }
-//    }
-
     static Map<String, Object> BuildComponent(Map<String, Object> params){
         String id=params['id']
         String comp=params['comp']?:params['component']
@@ -188,7 +168,7 @@ class FrontHelper {
 
         switch(comp){
             case "grid":
-                output.template = "<div id='${id}_grid'></div><div id='${id}_pager'></div>"
+                output.template = "<div id='${id}Grid'></div><div id='${id}Pager'></div>"
                 break
             case "toolbar":
                 output.height = 48
@@ -210,13 +190,34 @@ class FrontHelper {
 
         Map<String, Object> output = [:]
 
-        if(layout.rows!=null || layout.cols!=null){
+        if(layout.id !=null && layout.cells !=null){
+            output.id = layout.id
+            output.type = "line"
+            output.view = "tabview"
+
+            List<Map> tabs = layout.cells
+            println tabs
+            List<Map> cells=[]
+
+            for(Map cell in tabs){
+                println "cell${cell}"
+                if(cell.header !=null && cell.body !=null){
+
+                    println "cell1${cell}"
+                    cells.add(id: cell.id, header:cell.header, body:  BuildComponent(cell.body))
+                }else{
+                    println "cell2${cell}"
+                    cells.add(Layout(cell))
+                }
+            }
+
+            output.cells = cells
+        }
+        else if(layout.rows!=null || layout.cols!=null){
             output.type = "clean"
             output.view = "layout"
 
             List<Map> cells = []
-
-
 
             for(Map cell in (layout.rows?:layout.cols)){
                 if(cell.id !=null && cell.comp !=null){

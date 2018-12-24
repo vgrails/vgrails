@@ -48,7 +48,7 @@ class WebixTagLib {
         }
 
         if(component == 'grid') {
-            out << """{template: "<div id='${id}_grid'></div><div id='${id}_pager'></div>" ${flex},id: "${id}"}"""
+            out << """{template: "<div id='${id}Grid'></div><div id='${id}Pager'></div>" ${flex},id: "${id}"}"""
         }else if(component == 'toolbar') {
             out << """{template: "<div id='${id}'></div>", height: 48}"""
         }else if(component == 'sidebar') {
@@ -89,12 +89,15 @@ class WebixTagLib {
         String model = attrs['model']
 
         String template = """
-    ${id}RecordsPerPage = Math.floor((${id}_height-pagerHeight - gridHeaderHeight)/rowHeight)+1;
-    ${id}GridHeight = ${id}RecordsPerPage * rowHeight;
-    ${id}GridWidth = ${id}_width - 20;
+    var ${id}Width = webix.\$\$("${id}").\$width-7;
+    var ${id}Height = webix.\$\$("${id}").\$height;
 
-    ${id}Grid=webix.ui({
-        container:"${id}_grid",
+    var ${id}PageSize = Math.floor((${id}Height-pagerHeight - gridHeaderHeight)/rowHeight)+1;
+    var ${id}GridHeight = ${id}PageSize * rowHeight;
+    var ${id}GridWidth = ${id}Width - 20;
+
+    webix.ui({
+        container:"${id}Grid",
         view:"datatable",
         ${m.gridColumns([model: model])}
         select:"row",
@@ -105,8 +108,8 @@ class WebixTagLib {
         scrollY: false,
         pager:{
             template: "{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}",
-            container: "${id}_pager",
-            size: ${id}RecordsPerPage,
+            container: "${id}Pager",
+            size: ${id}PageSize,
             group: 5
         },
         url: "gridProxy->${g.createLink([controller: "demo", action: "list"])}"
@@ -183,7 +186,8 @@ ${m.sidebarGroup([id:"teacher", value:"老师"])}
         String label = attrs["label"]
         String model = attrs["model"]
         String action = attrs["action"] ?: "chart"
-
+        String height = attrs["height"]
+        String width = attrs["width"]
         String refresh = ""
 
         if (attrs["refresh"] != null) {
@@ -196,15 +200,15 @@ ${m.sidebarGroup([id:"teacher", value:"老师"])}
         }
 
         String template = """
-    ${m.containerSize(id: id)}
+    ${height==null? m.containerSize(id: id):""}
     var ${id} = webix.ui({
         container:'${id}',
         view : "chart",
         type : "${type}",
         value : "#${value}#",
         label : "#${label}#",
-        width : ${id}_width, 
-        height : ${id}_height,
+        width : ${width?:(id+'_width')}, 
+        height : ${height?:(id+'_height')},
         url: "/${model}/${action}"
     });
     ${refresh}
@@ -254,26 +258,6 @@ rows : [
         out << template
     }
 
-//webix.ui({
-//    "type": "clean", "rows":[
-//            {template: "<div id='toolbar'></div>", height: 48},
-//            {
-//                cols:[
-//                        {template: "<div id='sidebar'></div>", width: 58},
-//                        {template: "<div id='grid_grid'></div><div id='grid_pager'></div>" ,id: "grid"},
-//                        {
-//                            view : "accordion", type : "clean",
-//                            rows : [
-//                                    { header : "Babylon 5", body:{rows:[{template: "<div id='chart1'></div>" },
-//                                                                        {template: "<div id='chart2'></div>" }]} },
-//                                    { header : "Star Trek", body : "Kirk<br>Sisko<br>Archer<br>Picard<br>Janeway", collapsed : true },
-//                                    { header : "Stargate SG-1", body : "O'Neill<br>Danial<br>Carter<br>Teal'c", collapsed : true }
-//                            ]
-//                        }
-//                ]
-//            }
-//    ]
-//});
     def layout = { attrs, body->
 
         Map layout = FrontHelper.Layout(attrs.layout)
@@ -281,5 +265,28 @@ rows : [
         println layout
 
         out << "webix.ui(${layout as JSON});"
+    }
+
+    def form = { attrs, body ->
+        String model=attrs['model']
+        String id= attrs['id']
+        String output = """
+    {
+        view:"form",
+        container:"${id}",
+        width:300,
+        elements:[
+"""
+
+        output = output.trim() + "\n"
+        MetaDomain domain = MetaService.GetModel(model)
+        for(MetaField f in domain?.fields){
+            if(f.type=="String"){
+                output = output + "{view: 'text', label: '${f.locale}', id: 'form_${f.propertyName}', type: 'form'}," + "\n"
+            }
+        }
+        output = output + "]},"
+
+        out << "webix.ui(${output});"
     }
 }
