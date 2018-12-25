@@ -9,7 +9,7 @@ class Organization {
 
             form: [
                     ["name"],
-                    ["province", "city", "area"]
+                    ["province","city", "area"],
             ],
 
             sort: ["name"]

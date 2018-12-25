@@ -10,6 +10,10 @@ class DemoController {
     def layout() {
     }
 
+    def form(){
+
+    }
+
     def test() {
         render(
                 template: "/layout/leftUpDown",

@@ -1,13 +1,10 @@
 package com.vgrails
 
-import com.vgrails.model.MetaDomain
-import com.vgrails.model.MetaField
-import com.vgrails.model.MetaService
 import com.vgrails.utility.FrontHelper
 import grails.converters.JSON
 import grails.util.Environment
 
-class WebixTagLib {
+class VgGeneralTagLib {
     static namespace = "m"
     static defaultEncodeAs = [taglib:'none']
 
@@ -62,60 +59,6 @@ class WebixTagLib {
         String id=attrs['id']
 
         out << """${id}_width = webix.\$\$("${id}").\$width-7; ${id}_height = webix.\$\$("${id}").\$height;"""
-    }
-
-    def gridColumns = { attrs, body ->
-        String model=attrs['model']
-
-        MetaDomain domain = MetaService.GetModel(model)
-        out << """columns:[\n"""
-        for(MetaField f in domain?.fields){
-
-            String sort = domain?.sort.contains(f.propertyName)==true ? ', sort:"server"': ""
-
-            out << "    "*3 << """{id:"${f.propertyName}", header: "${f.locale}", fillspace: ${f.flex}${sort}}"""
-            if(f.propertyName != domain.fields[-1].propertyName){
-                out << ","
-            }
-            out << "\n"
-        }
-        out << """        ],
-"""
-    }
-
-    def grid = { attrs, body ->
-
-        String id = attrs['id']
-        String model = attrs['model']
-
-        String template = """
-    var ${id}Width = webix.\$\$("${id}").\$width-7;
-    var ${id}Height = webix.\$\$("${id}").\$height;
-
-    var ${id}PageSize = Math.floor((${id}Height-pagerHeight - gridHeaderHeight)/rowHeight)+1;
-    var ${id}GridHeight = ${id}PageSize * rowHeight;
-    var ${id}GridWidth = ${id}Width - 20;
-
-    webix.ui({
-        container:"${id}Grid",
-        view:"datatable",
-        ${m.gridColumns([model: model])}
-        select:"row",
-        navigation:false,
-        height: ${id}GridHeight,
-        width: ${id}GridWidth,
-        scrollX: false,
-        scrollY: false,
-        pager:{
-            template: "{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}",
-            container: "${id}Pager",
-            size: ${id}PageSize,
-            group: 5
-        },
-        url: "gridProxy->${g.createLink([controller: "demo", action: "list"])}"
-    });"""
-
-        out << template
     }
 
     //TODO: 菜单需要从服务端或配置加载
@@ -217,33 +160,6 @@ ${m.sidebarGroup([id:"teacher", value:"老师"])}
         out << template
     }
 
-    //TODO: 按钮需要从服务端或配置加载
-    def toolbar = { attrs, body->
-        String id = attrs["id"]
-
-        String template = """
-    var ${id}=webix.ui({
-        container:"${id}",
-        view:"toolbar",
-        css:"webix_dark",
-        height:44,
-        cols: [
-            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
-            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
-            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
-            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
-            { },
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-        ]
-    });""".trim()
-
-        out << template
-    }
-
     def accordion = {attrs, body ->
 
         String template = """
@@ -265,28 +181,5 @@ rows : [
         println layout
 
         out << "webix.ui(${layout as JSON});"
-    }
-
-    def form = { attrs, body ->
-        String model=attrs['model']
-        String id= attrs['id']
-        String output = """
-    {
-        view:"form",
-        container:"${id}",
-        width:300,
-        elements:[
-"""
-
-        output = output.trim() + "\n"
-        MetaDomain domain = MetaService.GetModel(model)
-        for(MetaField f in domain?.fields){
-            if(f.type=="String"){
-                output = output + "{view: 'text', label: '${f.locale}', id: 'form_${f.propertyName}', type: 'form'}," + "\n"
-            }
-        }
-        output = output + "]},"
-
-        out << "webix.ui(${output});"
     }
 }
