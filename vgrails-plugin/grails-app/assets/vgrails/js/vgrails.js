@@ -31,8 +31,18 @@ webix.proxy.gridProxy = {
     }
 };
 
-webix.i18n.setLocale("zh-CHS");
 
-pagerHeight = 31;
-gridHeaderHeight = 42;
-rowHeight = 36;
+/**
+ * 处理Grid/Datatable的PageSize自动计算
+ */
+function update_page_size(){
+    var visibleCount = this.getVisibleCount();
+    if (visibleCount){
+        webix.message(visibleCount);
+        this.getPager().define({ size:visibleCount });
+        this.getPager().refresh();
+        this.refresh();
+    }
+};
+
+webix.i18n.setLocale("zh-CHS");

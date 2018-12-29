@@ -1,5 +1,8 @@
 package com.vgrails
 
+import com.vgrails.model.MetaDomain
+import com.vgrails.model.MetaField
+import com.vgrails.model.MetaService
 import com.vgrails.utility.FrontHelper
 import grails.converters.JSON
 import grails.util.Environment
@@ -26,9 +29,10 @@ class VgGeneralTagLib {
     ${asset.stylesheet(src: "webix/codebase/webix${min}.css")}
     ${asset.stylesheet(src: "webix/codebase/skins/material.css")}
     ${asset.stylesheet(src: "css/materialdesignicons.css")}
+    ${asset.stylesheet(src: "css/vgrails.css")}
     ${asset.javascript(src: "webix/codebase/webix${min}.js")}
     ${asset.javascript(src: "locales/zh-CHS.js")}
-    ${asset.javascript(src: "javascripts/proxy.js")}
+    ${asset.javascript(src: "js/vgrails.js")}
     ${debug}""".trim()
 
 
@@ -66,23 +70,18 @@ class VgGeneralTagLib {
         String id = attrs['id']
 
         String template = """
-        var ${id}= webix.ui({
-            container: "${id}",
+        var ${id}={
             view: "sidebar",
             css:"webix_dark",
-            height: webix.\$\$("${id}").\$height-2,
             collapsed: true,
             data: [
-${m.sidebarGroup([id:"student", value:"学生"])},
-${m.sidebarGroup([id:"teacher", value:"老师"])}
+                ${m.sidebarGroup([id:"student", value:"学生"])},
+                ${m.sidebarGroup([id:"teacher", value:"老师"])}
             ],
-            on:{
-                onAfterSelect: function(id){
-                    webix.message("Selected: "+this.getItem(id).value+"("+id+")");
-                }
+            afterSelect: function(id){
+                webix.message("Selected: "+this.getItem(id).value+"("+id+")");
             }
-          });
-        """
+        };""".trim()
 
         out<<template
     }
@@ -97,7 +96,7 @@ ${m.sidebarGroup([id:"teacher", value:"老师"])}
         { id: "${id}1", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}1"},
         { id: "${id}2", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}2"}
     ]}
-  """
+  """.trim()
 
         out << template
     }
@@ -109,14 +108,12 @@ ${m.sidebarGroup([id:"teacher", value:"老师"])}
 
 
         String template = """
-        var ${id}= webix.ui({
-        container: "${id}",
+        var ${id}= {
         view : "tree",
-        select : true, borderless : true,
-        height: ${id}_height,
-        width:${id}_width,
+        select : true, 
+        borderless : true,
         url: "/${model}/${action}"
-    });""".trim()
+    };""".trim()
 
         out << template
     }
@@ -129,31 +126,27 @@ ${m.sidebarGroup([id:"teacher", value:"老师"])}
         String label = attrs["label"]
         String model = attrs["model"]
         String action = attrs["action"] ?: "chart"
-        String height = attrs["height"]
-        String width = attrs["width"]
         String refresh = ""
 
         if (attrs["refresh"] != null) {
             refresh = """
     setInterval(function () {
-        ${id}.clearAll();
-        ${id}.load("/${model}/${action}");
+        \$\$("${id}").clearAll();
+        \$\$("${id}").load("/${model}/${action}");
     }, ${attrs["refresh"]});
 """.trim()
         }
 
         String template = """
-    ${height==null? m.containerSize(id: id):""}
-    var ${id} = webix.ui({
-        container:'${id}',
+    var ${id} = {
+        id: "${id}",
         view : "chart",
         type : "${type}",
         value : "#${value}#",
         label : "#${label}#",
-        width : ${width?:(id+'_width')}, 
-        height : ${height?:(id+'_height')},
         url: "/${model}/${action}"
-    });
+    };
+    
     ${refresh}
     """.trim()
 
@@ -177,9 +170,119 @@ rows : [
     def layout = { attrs, body->
 
         Map layout = FrontHelper.Layout(attrs.layout)
+        String output = (layout as JSON)
 
-        println layout
+        out << output
+    }
 
-        out << "webix.ui(${layout as JSON});"
+    def form = { attrs, body ->
+        String model=attrs['model']
+        String id= attrs['id']
+        String output = """
+    {
+        view:"form",
+        container:"${id}",
+        elements:[
+"""
+        output = output.trim() + "\n"
+        MetaDomain domain = MetaService.GetModel(model)
+
+        List<List<String>> fieldLines = domain.form
+
+        for(List<String> fieldLine in fieldLines){
+            if(fieldLine.size() == 1){
+                //单行单列
+                MetaField f = domain.GetMetaField(fieldLine[0])
+                output = output + "{view:'text',label:'${f.locale}',id:'form_${f.propertyName}',type:'form'},\n"
+            }else{
+                //单行多列
+                output = output + "{cols:[\n"
+
+                for(String field in fieldLine){
+                    MetaField f = domain.GetMetaField(field)
+                    output = output + "{view:'text',label:'${f.locale}',id:'form_${f.propertyName}',type:'form'},\n"
+                }
+                output = output + "]},\n"
+            }
+        }
+
+        output = output + "]},"
+
+        out << "webix.ui(${output});"
+    }
+
+    def gridColumns = { attrs, body ->
+        String model=attrs['model']
+
+        MetaDomain domain = MetaService.GetModel(model)
+        out << """columns:[\n"""
+        for(MetaField f in domain?.fields){
+
+            String sort = domain?.sort.contains(f.propertyName)==true ? ', sort:"server"': ""
+
+            out << "    "*3 << """{id:"${f.propertyName}", header: "${f.locale}", fillspace: ${f.flex}${sort}}"""
+            if(f.propertyName != domain.fields[-1].propertyName){
+                out << ","
+            }
+            out << "\n"
+        }
+        out << """        ],
+"""
+    }
+
+    //TODO: 修复 model, controller, action
+    def grid = { attrs, body ->
+
+        String id = attrs['id']
+        String model = attrs['model'] ?:"demo"
+        String action = attrs['action']?:"list"
+
+        String template = """
+    var ${id}={
+        view:"datatable",
+        id:"${id}",
+        ${m.gridColumns([model: model])}
+        select:"row",
+        navigation:false,
+        scrollX: false,
+        scrollY: false,
+        pager:"${id}Pager",
+        url: "gridProxy->${g.createLink([controller: "demo", action: "list"])}",
+        ready:function(){ webix.delay(update_page_size, this);},
+        resize:function(nw,nh,ow,oh){if(oh && oh != nh) webix.delay(update_page_size,this);}
+    };
+    
+    var ${id}Pager ={
+        view:"pager",
+        id:"${id}Pager",
+        template: "{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}",
+    };
+    """.trim()
+        out << template
+    }
+
+    def toolbar = { attrs, body->
+        String id = attrs["id"]
+
+        String template = """
+    var ${id}={
+        view:"toolbar",
+        css:"webix_dark",
+        height:44,
+        cols: [
+            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
+            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
+            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
+            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
+            { },
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
+            { view:"button", type:"icon", label:"创建", id:"btn", icon:"mdi mdi-access-point", width:92},
+        ]
+    };""".trim()
+
+        out << template
     }
 }

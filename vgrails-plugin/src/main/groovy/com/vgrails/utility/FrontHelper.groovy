@@ -159,6 +159,7 @@ class FrontHelper {
         String id=params['id']
         String comp=params['comp']?:params['component']
         String flex=params['flex']?:params['gravity']
+        String label=params['label']?:""
 
         Map output = [id: id]
 
@@ -168,18 +169,18 @@ class FrontHelper {
 
         switch(comp){
             case "grid":
-                output.template = "<div id='${id}Grid'></div><div id='${id}Pager'></div>"
+                output.template = """<div id='${id}Grid'></div>${label}<div id='${id}Pager'></div>"""
                 break
             case "toolbar":
                 output.height = 48
-                output.template = "<div id='${id}'></div>"
+                output.template = """<div id='${id}'>${label}</div>"""
                 break
             case "sidebar":
                 output.width = 58
-                output.template = "<div id='${id}'></div>"
+                output.template = """<div id='${id}'>${label}</div>"""
                 break
             default:
-                output.template = "<div id='${id}'></div>"
+                output.template = """<div id='${id}'>${label}</div>"""
                 break
         }
 

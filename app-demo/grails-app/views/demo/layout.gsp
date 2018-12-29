@@ -29,13 +29,15 @@
         <m:toolbar id="toolbar"/>
         <m:sidebar id="sidebar" />
         <m:grid id="grid" model="organization"/>
-
+        <m:chart id="chart1" type="line" model="area" value="count" label="dollars"/>
         // //事件响应
         // $$('grid').attachEvent("onItemClick", function(id, e, node){
         //     webix.message(id.row);
         // });
 
-        <m:chart id="chart1" type="line" model="area" value="count" label="dollars"/>
+
+
+
         $$('tabbar').getMultiview().attachEvent('onViewChange', function(prevId, nextId){
             if(nextId == 'chart2') {
                 <m:chart id="chart2" type="bar" model="area" value="count" label="dollars"/>
