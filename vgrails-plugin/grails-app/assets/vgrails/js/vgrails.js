@@ -38,7 +38,7 @@ webix.proxy.gridProxy = {
 function update_page_size(){
     var visibleCount = this.getVisibleCount();
     if (visibleCount){
-        webix.message(visibleCount);
+        //webix.message(visibleCount);
         this.getPager().define({ size:visibleCount });
         this.getPager().refresh();
         this.refresh();

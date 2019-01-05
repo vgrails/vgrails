@@ -65,19 +65,23 @@ class VgGeneralTagLib {
         out << """${id}_width = webix.\$\$("${id}").\$width-7; ${id}_height = webix.\$\$("${id}").\$height;"""
     }
 
-    //TODO: 菜单需要从服务端或配置加载
     def sidebar = { attrs, body ->
-        String id = attrs['id']
+        String id = "sidebar"
+
+        List<Map> config = grailsApplication.config.get("vg.sidebar")
 
         String template = """
         var ${id}={
             view: "sidebar",
             css:"webix_dark",
             collapsed: true,
-            data: [
-                ${m.sidebarGroup([id:"student", value:"学生"])},
-                ${m.sidebarGroup([id:"teacher", value:"老师"])}
-            ],
+            data: [""".trim()
+
+        for(Map group in config){
+            template += m.sidebarGroup(group)
+        }
+
+        template+="""],
             afterSelect: function(id){
                 webix.message("Selected: "+this.getItem(id).value+"("+id+")");
             }
@@ -89,14 +93,15 @@ class VgGeneralTagLib {
     def sidebarGroup = { attrs, body ->
 
         String id = attrs["id"]
-        String value = attrs["value"]
-
+        String value = attrs["label"]
+        List<Map> items=attrs["items"]
         String template = """
-    {id: "${id}", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}",  data:[
-        { id: "${id}1", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}1"},
-        { id: "${id}2", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}2"}
-    ]}
-  """.trim()
+            {id: "${id}", icon: "mdi mdi-light mdi-view-dashboard", value: "${value}",  data:[""".trim()
+
+        for(Map item in items) {
+            template +="""{ id: "${item.id}", icon: "mdi mdi-light mdi-view-dashboard", value: "${item.label}"},\n"""
+        }
+        template += """]}, """.trim()
 
         out << template
     }
@@ -121,9 +126,9 @@ class VgGeneralTagLib {
     def chart = { attrs, body ->
 
         String id = attrs["id"]
-        String type = attrs["type"]
-        String value = attrs["value"]
-        String label = attrs["label"]
+        String type = attrs["type"]?:"bar"
+        String value = attrs["value"] ?: "count"
+        String label = attrs["label"] ?: "dollars"
         String model = attrs["model"]
         String action = attrs["action"] ?: "chart"
         String refresh = ""
@@ -179,9 +184,10 @@ rows : [
         String model=attrs['model']
         String id= attrs['id']
         String output = """
-    {
+    var ${id}={
         view:"form",
-        container:"${id}",
+        id:"${id}",
+        height: 1000,
         elements:[
 """
         output = output.trim() + "\n"
@@ -206,21 +212,27 @@ rows : [
             }
         }
 
-        output = output + "]},"
+        output = output + "]};"
 
-        out << "webix.ui(${output});"
+        out << output
     }
 
     def gridColumns = { attrs, body ->
         String model=attrs['model']
+        boolean search =attrs['search']? true : false
 
         MetaDomain domain = MetaService.GetModel(model)
         out << """columns:[\n"""
         for(MetaField f in domain?.fields){
 
             String sort = domain?.sort.contains(f.propertyName)==true ? ', sort:"server"': ""
+            String header = """header: "${f.locale}", """
 
-            out << "    "*3 << """{id:"${f.propertyName}", header: "${f.locale}", fillspace: ${f.flex}${sort}}"""
+            if(search && domain?.search.contains(f.propertyName)==true){
+                header = """header: ["${f.locale}", {content: "serverFilter"}], """
+            }
+
+            out << "    "*3 << """{id:"${f.propertyName}", ${header} fillspace: ${f.flex}${sort}}"""
             if(f.propertyName != domain.fields[-1].propertyName){
                 out << ","
             }
@@ -236,18 +248,20 @@ rows : [
         String id = attrs['id']
         String model = attrs['model'] ?:"demo"
         String action = attrs['action']?:"list"
+        boolean search =attrs['search']? true : null
 
         String template = """
     var ${id}={
         view:"datatable",
+        headermenu: true,
         id:"${id}",
-        ${m.gridColumns([model: model])}
+        ${m.gridColumns([model: model, search: search])}
         select:"row",
         navigation:false,
         scrollX: false,
         scrollY: false,
         pager:"${id}Pager",
-        url: "gridProxy->${g.createLink([controller: "demo", action: "list"])}",
+        url: "gridProxy->${g.createLink([controller: model, action: action])}",
         ready:function(){ webix.delay(update_page_size, this);},
         resize:function(nw,nh,ow,oh){if(oh && oh != nh) webix.delay(update_page_size,this);}
     };
@@ -258,6 +272,7 @@ rows : [
         template: "{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}",
     };
     """.trim()
+
         out << template
     }
 
@@ -267,22 +282,96 @@ rows : [
         String template = """
     var ${id}={
         view:"toolbar",
-        css:"webix_dark",
         height:44,
         cols: [
-            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
-            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
-            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
-            { view:"button", type:"icon", icon:"mdi mdi-access-point", width:39},
-            { },
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-            { view:"button", type:"icon", label:"保存", icon:"mdi mdi-access-point", width:92},
-            { view:"button", type:"icon", label:"创建", id:"btn", icon:"mdi mdi-access-point", width:92},
+        { view:"button", autowidth:true, value: "新", type:"form"},
+        { view:"button", autowidth:true, value: "新增", type:"form"},
+        { view:"button", autowidth:true, value: "新增增", type:"form"},
+        { view:"button", autowidth:true, value: "新增增增", type:"form"},
+        { },
+        { view:"button", autowidth:true, value: "新增", type:"icon", id:"btn", icon:"mdi mdi-access-point"},
         ]
     };""".trim()
 
         out << template
+    }
+
+    def topbar = { attrs, body->
+        String id = attrs["id"]
+
+        String template = """
+    var menuConfig = {
+            view: "sidemenu",
+            id: "menu",
+            width: 200,
+            position: "right",
+            body:{
+                view:"list",
+                borderless:true,
+                scroll: false,
+                template: "<span class='webix_icon mdi mdi-#icon#'></span> #value#",
+                data:[
+                    {id: 1, value: "Customers", icon: "account"},
+                    {id: 2, value: "Products", icon: "cube"},
+                    {id: 3, value: "Reports", icon: "chart-bar"},
+                    {id: 4, value: "Archives", icon: "database"},
+                    {id: 5, value: "Settings", icon: "cogs"}
+                ],
+                select:true,
+                type:{
+                    height: 40
+                }
+            }
+        }
+
+    var menu = null;
+
+    var ${id}={
+        view:"toolbar",
+        css:"webix_dark",
+        height:44,
+        cols: [
+            { view:"button", type:"icon", icon:"mdi ${grailsApplication.config.get('vg.app.icon')?:'mdi-access-point'}", width:24},
+            { view:"label", label:"${grailsApplication.config.get('vg.app.name')?:'VGRAILS演示系统'}<sub class='version_string'>${grailsApplication.config.get('vg.app.version')?:'0.0.1'}</sub>", width: 300},
+            { },
+            { view:"button", type:"icon", id:"btn", badge: 5, icon:"mdi mdi-access-point", width: 42},
+            {
+                view: "icon", icon: "mdi mdi-menu",
+                click: function(){
+                    
+                    if(menu == null){
+                        menu = webix.ui(menuConfig);
+                    }
+                    
+                    if( menu.config.hidden){
+                        menu.show();
+                    }else
+                        menu.hide();
+                    }
+            }
+        ]
+    };""".trim()
+
+        out << template
+    }
+    
+    def property = { attrs, body ->
+        String id = attrs["id"]
+
+        String template = """
+    var ${id} = {
+        view:"property",  id:"id", gravity: 1,
+        elements:[
+            { label:"Editors",       type:"label"},
+            { label:"Password",      type:"password"     , id:"a1",   value: "pass"},
+            { label:"Text",          type:"text"         , id:"a2",   value: "pass"},
+            { label:"Select",        type:"select"       , id:"a3",   value: "pass", options:colors },
+            { label:"Rich Select",   type:"text"   , id:"a4",   value: "1", suggest:colors },
+            { label:"Multi Select",  type:"multiselect"  , id:"a5",   value: "1,3" , options:colors },
+            { label:"Date Picker",   type:"date"   , id:"a6",   value: "1980-01-02"},
+            { label:"Color Picker",  type:"color"  , id:"a7",   value: "#ff88a8"}
+        ]
+    };
+"""
     }
 }

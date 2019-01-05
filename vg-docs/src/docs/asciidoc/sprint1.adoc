@@ -120,8 +120,8 @@ NOTE: `creditCard`, `email`, `url`等3个grails内置约束前端不实现
 
 [source,shell]
 ----
-create-domain-class com.vgrails.demo.Org
-create-domain-class com.vgrails.demo.Employee
+create-domain-class com.vgrails.test.Org
+create-domain-class com.vgrails.test.Employee
 ----
 
 ### 实现组织

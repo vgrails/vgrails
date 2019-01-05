@@ -71,7 +71,7 @@ class MetaField {
                     minSize:[type: Integer, nullable: true],
             ],
             ASSOCIATION:[
-                    association:[type: String, nullable: false],
+                    association:[default: "many2one", type: String, nullable: true],
                     nullable:[default: false, type: Boolean, nullable: true]
             ]
     ]
@@ -123,6 +123,16 @@ class MetaField {
             }else if(map["nullable"]==true && map["default"]!=null && c.properties.containsKey(cName)==false){
                 constraints[cName] = map["default"]
             }else if(map["nullable"]==false && c.properties[cName]==null && c.attributes[cName]==null){
+
+
+                println map
+                println c.properties
+                println c.attributes
+                println "-----------------"
+                println map["nullable"] //false
+                println c.properties[cName] //true
+                println c.attributes[cName]
+
                 println "错误:约束值缺失, 属性:${c.propertyName} 约束:${cName}"
             }
         }

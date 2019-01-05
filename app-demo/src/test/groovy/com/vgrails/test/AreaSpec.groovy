@@ -1,4 +1,4 @@
-package com.vgrails.demo
+package com.vgrails.test
 
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification

@@ -2,18 +2,32 @@
 :sectnums:
 
 
+### 演示能力
+
+* 基于模型快速建模
+* UI快速生成
+* 适应变化的动态修改
+
 ### 业务背景
 
 
 演示业务场景是门店管理，领域实体包括：
 
 * 组织(Organization)：代表管理层级或区域
-* 门店(Shop)
+* 员工(Employee): 归属组织，有角色的差异，如：管理员、经理(可以查看所有销售数据)、销售(可以查看整体和个人数据，不可看其他销售)
+* 订单(Purchase): 归属员工
+* 产品(Product): 归属订单
 
-[plantuml, org-student-lesson, png]
+[plantuml, background, png]
 ----
 组织  *--  组织 :上级组织
-组织 "1" --* "M" 门店 : 拥有
+组织  "1" -- "1" 区域 : 组织有区域属性
+区域  *-- "1" 区域 : 上级区域
+组织 "1" --* "M" 员工 : 拥有
+员工 "1" --* "M" 订单 : 拥有
+组织 "N" -- "1" 订单 : 拥有
+
+订单 "N" --* "M" 产品 : 关联
 ----
 
 ### 开始编码
@@ -23,8 +37,19 @@
 在Grails3交互模式下输入如下命令：
 [source,shell]
 ----
-create-domain com.vgrails.demo.Organization
-create-domain com.vgrails.demo.Shop
+create-domain com.vgrails.test.Organization
+create-domain com.vgrails.test.Area
+create-domain com.vgrails.test.Employee
+create-domain com.vgrails.test.Purchase
+create-domain com.vgrails.test.Product
+----
+
+#### 项目配置
+
+[source,groovy]
+----
+class Organization{
+}
 ----
 
 #### 实现组织
@@ -103,8 +128,8 @@ class Shop{
 ----
 generate-vg \                               <1>
         tree-view:shop:manageShop \         <2>
-        com.vgrails.demo.Organization \     <3>
-        com.vgrails.demo.Shop \             <4>
+        com.vgrails.test.Organization \     <3>
+        com.vgrails.test.Shop \             <4>
         owner                               <5>
 ----
 <1> 框架模板命令
@@ -122,8 +147,8 @@ NOTE: 以上命令正常情况不需要输入换行符，为说明方便增加
 ----
 generate-vg \
         tree-view:shop:manageOrganization
-        com.vgrails.demo.Organization \
-        com.vgrails.demo.Organization \
+        com.vgrails.test.Organization \
+        com.vgrails.test.Organization \
         parent
 ----
 

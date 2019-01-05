@@ -132,7 +132,7 @@
         //         size: formGridPageSize,
         //         group: 5
         //     },
-        //     url: "gridProxy->/demo/list"
+        //     url: "gridProxy->/test/list"
         // });
 
 
