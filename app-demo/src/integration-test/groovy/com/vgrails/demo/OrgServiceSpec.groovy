@@ -7,37 +7,37 @@ import org.hibernate.SessionFactory
 
 @Integration
 @Rollback
-class AreaServiceSpec extends Specification {
+class OrgServiceSpec extends Specification {
 
-    AreaService areaService
+    OrgService orgService
     SessionFactory sessionFactory
 
     private Long setupData() {
         // TODO: Populate valid domain instances and return a valid ID
-        //new Area(...).save(flush: true, failOnError: true)
-        //new Area(...).save(flush: true, failOnError: true)
-        //Area area = new Area(...).save(flush: true, failOnError: true)
-        //new Area(...).save(flush: true, failOnError: true)
-        //new Area(...).save(flush: true, failOnError: true)
+        //new Org(...).save(flush: true, failOnError: true)
+        //new Org(...).save(flush: true, failOnError: true)
+        //Org org = new Org(...).save(flush: true, failOnError: true)
+        //new Org(...).save(flush: true, failOnError: true)
+        //new Org(...).save(flush: true, failOnError: true)
         assert false, "TODO: Provide a setupData() implementation for this generated test suite"
-        //area.id
+        //org.id
     }
 
     void "test get"() {
         setupData()
 
         expect:
-        areaService.get(1) != null
+        orgService.get(1) != null
     }
 
     void "test list"() {
         setupData()
 
         when:
-        List<Area> areaList = areaService.list(max: 2, offset: 2)
+        List<Org> orgList = orgService.list(max: 2, offset: 2)
 
         then:
-        areaList.size() == 2
+        orgList.size() == 2
         assert false, "TODO: Verify the correct instances are returned"
     }
 
@@ -45,30 +45,30 @@ class AreaServiceSpec extends Specification {
         setupData()
 
         expect:
-        areaService.count() == 5
+        orgService.count() == 5
     }
 
     void "test delete"() {
-        Long areaId = setupData()
+        Long orgId = setupData()
 
         expect:
-        areaService.count() == 5
+        orgService.count() == 5
 
         when:
-        areaService.delete(areaId)
+        orgService.delete(orgId)
         sessionFactory.currentSession.flush()
 
         then:
-        areaService.count() == 4
+        orgService.count() == 4
     }
 
     void "test save"() {
         when:
         assert false, "TODO: Provide a valid instance to save"
-        Area area = new Area()
-        areaService.save(area)
+        Org org = new Org()
+        orgService.save(org)
 
         then:
-        area.id != null
+        org.id != null
     }
 }

@@ -2,7 +2,7 @@
 
 ROOT_DIR=`pwd`
 
-APP='app-demo'
+APP='app-test'
 PLUGINS='vgrails-plugin'
 
 cd $ROOT_DIR

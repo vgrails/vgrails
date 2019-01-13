@@ -278,18 +278,39 @@ rows : [
 
     def toolbar = { attrs, body->
         String id = attrs["id"]
+        String viewAction = "${controllerName}_${actionName}"
+
+        String buttons = ""
+        String searchButtons = ""
+
+        List<Map> buttonsConfig = grailsApplication.config.get("vg.toolbar.${viewAction}")
+
+        if(buttonsConfig != null)
+        for(Map btn in buttonsConfig){
+            if(btn.id != null){
+                String buttonTemplate = """{view:"button", autowidth:true, type:"danger", id:"${viewAction}_${btn.id}", value:"${btn.value}"},"""
+                buttons += buttonTemplate
+            }else if(btn.search == "standard"){
+                searchButtons = """
+                 { view:"select", options:[{id:"name", value:"名称"}, {id:"code", value:"编码"}], width:80},
+                 { view:"search", placeholder:"输入条件...", width: 250 },
+                 { view:"button", autowidth:true, value: "重置"},
+                 """
+
+            }
+        }else{
+            buttons = """{view:"button", autowidth:true, value: "待配", type:"form"},"""
+        }
 
         String template = """
     var ${id}={
         view:"toolbar",
         height:44,
         cols: [
-        { view:"button", autowidth:true, value: "新", type:"form"},
-        { view:"button", autowidth:true, value: "新增", type:"form"},
-        { view:"button", autowidth:true, value: "新增增", type:"form"},
-        { view:"button", autowidth:true, value: "新增增增", type:"form"},
+        ${buttons}
         { },
-        { view:"button", autowidth:true, value: "新增", type:"icon", id:"btn", icon:"mdi mdi-access-point"},
+        ${searchButtons}
+        { view:"button", autowidth:true, value: "新增", type:"icon", id:"help", icon:"mdi mdi-access-point", width: 24},
         ]
     };""".trim()
 

@@ -11,25 +11,25 @@
 
         <m:topbar id="topbar" />;
         <m:sidebar id="sidebar"/>;
-        %{--<m:toolbar id="toolbar" />;--}%
+        <m:toolbar id="toolbar" />;
 
-        var toolbar={
-            view:"toolbar",
-            height:44,
-            cols: [
-                { view:"button", autowidth:true, value: "增加"},
-                { view:"button", autowidth:true, value: "删除"},
-                { view:"segmented", value:"one", inputWidth:250, options:[
-                        { id:"one", value:"One"},
-                        { id:"two", value:"Two"},
-                        { id:"three", value:"Three"}
-                    ]},
-                { },
-                { view:"select", options:[{id:"name", value:"名称"}, {id:"code", value:"编码"}], width:80},
-                { view:"search", placeholder:"输入条件...", width: 250 },
-                { view:"button", autowidth:true, value: "重置"},
-            ]
-        };
+        // var toolbar={
+        //     view:"toolbar",
+        //     height:44,
+        //     cols: [
+        //         { view:"button", autowidth:true, value: "增加"},
+        //         { view:"button", autowidth:true, value: "删除"},
+        //         { view:"segmented", value:"one", inputWidth:250, options:[
+        //                 { id:"one", value:"One"},
+        //                 { id:"two", value:"Two"},
+        //                 { id:"three", value:"Three"}
+        //             ]},
+        //         { },
+        //         { view:"select", options:[{id:"name", value:"名称"}, {id:"code", value:"编码"}], width:80},
+        //         { view:"search", placeholder:"输入条件...", width: 250 },
+        //         { view:"button", autowidth:true, value: "重置"},
+        //     ]
+        // };
 
         <m:tree id="tree" model="region" />
         <m:grid id="grid" model="region" />

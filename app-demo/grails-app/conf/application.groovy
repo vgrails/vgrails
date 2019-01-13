@@ -42,6 +42,15 @@ vg {
             ]
             ],
     ]
+
+    toolbar {
+        region_index = [
+                [id: "create", value: "创建"],
+                [id: "edit", value: "编辑"],
+                [id: "delete", value: "删除"],
+                [search: "standard"]
+        ]
+    }
 }
 
 
